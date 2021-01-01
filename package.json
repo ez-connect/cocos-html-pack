@@ -1,0 +1,14 @@
+{
+  "name": "cocos-web-mobile-template",
+  "version": "0.0.1",
+  "description": "Single html web mobile template for Cocos",
+  "main": "lib/index.js",
+  "repository": "https://github.com/ez-connect/cocos-web-mobile-template.git",
+  "author": "Vinh <thanh.vinh@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1"
+  }
+}
