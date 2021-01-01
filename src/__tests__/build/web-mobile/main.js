@@ -1,0 +1,1 @@
+window.boot = function () {}

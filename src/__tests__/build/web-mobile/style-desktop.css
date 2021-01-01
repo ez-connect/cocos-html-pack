@@ -1,0 +1,7 @@
+#Cocos2dGameContainer {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  left: 0px;
+  top: 0px;
+}
