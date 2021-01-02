@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>{$title}</title>
+  <title>${title}</title>
 
   <!--http://www.html5rocks.com/en/mobile/mobifying/-->
   <meta name="viewport"
@@ -39,9 +39,8 @@
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
   <link rel="icon" href="favicon.ico" />
-  <style>
-    {$style}
-  </style>
+
+  ${style}
 </head>
 
 <body>
@@ -52,13 +51,18 @@
     </div>
   </div>
 
-  <script type="text/javascript">
-    {$js}
-  </script>
+  ${assets}
 
-  <script type="text/javascript">
-    {$assets}
-  </script>
+  ${settings.js}
+
+  ${cocos2d-js-min.js}
+
+  ${assets/internal/index.js}
+
+  ${main.js}
+
+  ${assets/main/index.js}
+
 </body>
 
 </html>

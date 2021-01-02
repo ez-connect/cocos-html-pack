@@ -21,16 +21,18 @@ const kPathHTML = 'index.html';
 const kPathStyleDesktop = 'style-desktop.css';
 // style-mobile.css
 const kPathStyleMobile = 'style-mobile.css';
-// // settings.json
-// const kPathSetting = path.join('src', 'settings.js');
-// // cocos2d-js-min.js
-// const kPathEngine = 'cocos2d-js-min.js';
-// // assets
-// const kPathAssets =  'assets';
-// // main.js
-// const kPathScript = path.join(kPathAssets, 'main.js');
-// // internal/index.js
-// const kPathInternalScript = path.join(kPathAssets, 'internal', 'index.js');
+// assets
+const kPathAssets =  'assets';
+// settings.json
+const kPathSetting = path.join('src', 'settings.js');
+// cocos2d-js-min.js
+const kPathEngineJS = 'cocos2d-js-min.js';
+// assets/internal/index.js
+const kPathInternalJS = path.join(kPathAssets, 'internal', 'index.js');
+// main.js
+const kPathMainJS = 'main.js';
+// assets/main/index.js
+const kPathJS = path.join(kPathAssets, 'main', 'index.js');
 
 class Reader {
   _workingDir = 'build/web-mobile';
@@ -73,52 +75,34 @@ class Reader {
   }
 
   readAll(): Resource {
-    const res: Resource = {
-      html: '',
-      style: '',
-      js: {},
-      assets: {},
-    };
-
     // Get all scripts + assets files
     const filenames: string[] = [];
-    this.walk(filenames, this._workingDir);
+    const assetsDir = path.join(this._workingDir, kPathAssets);
+    this.walk(filenames, assetsDir);
 
+    const assets: MapString = {};
     for (const filename of filenames) {
-      const key = filename.replace(this._workingDir, '');
-      const value = this.read(filename);
       const ext = path.extname(filename);
-      switch (ext) {
-      case '.html':
-        if (filename.includes(kPathHTML)) {
-          res.html = value;
-        }
-        break;
-      case '.css':
-        if (
-          filename.includes(kPathStyleMobile) &&
-            this._template === Template.Mobile
-        ) {
-          res.style = value;
-        } else if (
-          filename.includes(kPathStyleDesktop) &&
-            this._template === Template.Desktop
-        ) {
-          res.style = value;
-        } else {
-          // console.warn('Unknow CSS', filename);
-        }
-        break;
-      case '.js':
-        res.js[key] = value;
-        break;
-      default:
-        res.assets[key] = value;
-        break;
+      if (ext === '.js') {
+        continue;
       }
+
+      const key = filename.replace(assetsDir, '');
+      const value = this.read(filename);
+      assets[key] = value;
     }
 
-    return res;
+    return {
+      html: this.read(path.join(this._workingDir, kPathHTML)),
+      style: this._template === Template.Mobile ? this.read(path.join(this._workingDir, kPathStyleMobile))
+        : this.read(path.join(this._workingDir, kPathStyleDesktop)),
+      assets,
+      settings: this.read(path.join(this._workingDir, kPathSetting)),
+      engineJS: this.read(path.join(this._workingDir, kPathEngineJS)),
+      internalJS: this.read(path.join(this._workingDir, kPathInternalJS)),
+      mainJS: this.read(path.join(this._workingDir, kPathMainJS)),
+      js: this.read(path.join(this._workingDir, kPathJS)),
+    };
   }
 }
 

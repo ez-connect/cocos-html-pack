@@ -5,6 +5,7 @@ import { Packer, Reader } from './packer';
 
 function main(
   dir: string,
+  title: string,
   filename: string,
   min?: boolean,
   verbose?: boolean,
@@ -13,7 +14,7 @@ function main(
 
   Reader.setWorkingDir(dir);
   const data = Reader.readAll();
-  Packer.load(data);
+  Packer.load(data, 'Single HTML');
   const html = Packer.patch();
   Packer.write(filename, html);
 
@@ -26,11 +27,11 @@ function main(
 
 Commander.description('Single html web mobile template for Cocos')
   .version('0.0.1')
-  .arguments('<dir> <filename>')
+  .arguments('<dir> <title> <filename>')
   .option('-v --verbose [verbose]', 'output log')
   .option('-min --minify [minify]', 'Minimize HTML')
-  .action((dir, filename) => {
-    main(dir, filename, Commander.minify, Commander.verbose);
+  .action((dir, title, filename) => {
+    main(dir, title, filename, Commander.minify, Commander.verbose);
   });
 
 Commander.parse(process.argv);

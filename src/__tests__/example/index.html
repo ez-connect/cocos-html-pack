@@ -2,19 +2,25 @@
 <html>
 
 <head>
-  <style>
-    {$style}
-  </style>
+  <title>${title}</title>
+
+  ${style}
 </head>
 
 <body>
-  <script>
-    {$js}
-  </script>
 
-  <script>
-    window.assets={$assets}
-  </script>
+  ${assets}
+
+  ${settings.js}
+
+  ${cocos2d-js-min.js}
+
+  ${assets/internal/index.js}
+
+  ${main.js}
+
+  ${assets/main/index.js}
+
 </body>
 
 </html>
