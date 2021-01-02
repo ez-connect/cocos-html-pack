@@ -16,11 +16,13 @@
     "build": "yarn build:clean && tsc"
   },
   "dependencies": {
-    "commander": "^6.2.1"
+    "commander": "^6.2.1",
+    "minify": "^6.0.1"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
     "@types/jest": "^26.0.19",
+    "@types/minify": "^6.0.0",
     "@types/node": "^14.14.17",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
