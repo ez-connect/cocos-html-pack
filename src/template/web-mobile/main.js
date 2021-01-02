@@ -128,7 +128,7 @@ window.boot = function () {
   }
 };
 
-if (window.jsb) {
+if (window.document) {
   // var isRuntime = typeof loadRuntime === 'function';
   // if (isRuntime) {
   //   require('src/settings.c7029.js');
@@ -148,10 +148,15 @@ if (window.jsb) {
 
   // Bundle
   var loadBundle = function (nameOrUrl, options, onComplete) {
+    console.log(nameOrUrl)
     var str = window.assets[nameOrUrl + '/config.json'];
-    str.base = nameOrUrl + '/';
-    var data = JSON.parse(str);
-    onComplete(null, data);
+    if (str) {
+      str.base = nameOrUrl + '/';
+      var data = JSON.parse(str);
+      onComplete(null, data);
+    } else {
+      throw new Error('Cannot found:', nameOrUrl);
+    }
   };
 
   // Json

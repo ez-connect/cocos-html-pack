@@ -22,7 +22,7 @@ const kPathStyleDesktop = 'style-desktop.css';
 // style-mobile.css
 const kPathStyleMobile = 'style-mobile.css';
 // assets
-const kPathAssets =  'assets';
+const kPathAssets = 'assets';
 // settings.json
 const kPathSetting = path.join('src', 'settings.js');
 // cocos2d-js-min.js
@@ -87,15 +87,20 @@ class Reader {
         continue;
       }
 
-      const key = filename.replace(assetsDir, '');
+      let key = filename.replace(`${assetsDir}${path.sep}`, '');
+      if (path.sep === '\\') {
+        key = key.replace('\\', '/');
+      }
       const value = this.read(filename);
       assets[key] = value;
     }
 
     return {
       html: this.read(path.join(this._workingDir, kPathHTML)),
-      style: this._template === Template.Mobile ? this.read(path.join(this._workingDir, kPathStyleMobile))
-        : this.read(path.join(this._workingDir, kPathStyleDesktop)),
+      style:
+        this._template === Template.Mobile
+          ? this.read(path.join(this._workingDir, kPathStyleMobile))
+          : this.read(path.join(this._workingDir, kPathStyleDesktop)),
       assets,
       settings: this.read(path.join(this._workingDir, kPathSetting)),
       engineJS: this.read(path.join(this._workingDir, kPathEngineJS)),
