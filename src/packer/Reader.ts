@@ -3,6 +3,14 @@ import * as path from 'path';
 
 type MapString = { [key: string]: string };
 
+interface Result {
+  html: string;
+  settings: string;
+  style: string;
+  js: MapString;
+  assets: MapString;
+}
+
 // Template
 enum Template {
   Mobile,
@@ -19,27 +27,27 @@ const kBinaryFormat: MapString = {
   '.plist': 'data:text/plist;base64,',
 };
 
-const kBuildDir = path.join('build', 'web-mobile');
+// const kBuildDir = path.join('build', 'web-mobile');
 
 // index.html
-const kPathHTML = path.join(kBuildDir, 'index.html');
+const kPathHTML = 'index.html';
 // style-desktop.css
-const kPathStyleDesktop = path.join(kBuildDir, 'style-desktop.css');
+const kPathStyleDesktop = 'style-desktop.css';
 // style-mobile.css
-const kPathStyleMobile = path.join(kBuildDir, 'style-mobile.css');
+const kPathStyleMobile = 'style-mobile.css';
 // settings.json
-const kPathSettingPath = path.join(kBuildDir, 'src', 'settings.js');
-// cocos2d-js-min.js
-const kPathEnginePath = path.join(kBuildDir, 'cocos2d-js-min.js');
-// assets
-const kPathAssets = path.join(kBuildDir, 'assets');
-// main.js
-const kPathScript = path.join(kPathAssets, 'main.js');
-// internal/index.js
-const kPathInternalScript = path.join(kPathAssets, 'internal', 'index.js');
+const kPathSetting = path.join('src', 'settings.js');
+// // cocos2d-js-min.js
+// const kPathEngine = 'cocos2d-js-min.js';
+// // assets
+// const kPathAssets =  'assets';
+// // main.js
+// const kPathScript = path.join(kPathAssets, 'main.js');
+// // internal/index.js
+// const kPathInternalScript = path.join(kPathAssets, 'internal', 'index.js');
 
 class Reader {
-  _workingDir: string = 'build/web-mobile';
+  _workingDir = 'build/web-mobile';
   _template: Template = Template.Mobile;
 
   setWorkingDir(value: string) {
@@ -78,49 +86,65 @@ class Reader {
     }
   }
 
-  readHTML(): string {
-    return this.read(path.join(this._workingDir, kPathHTML));
-  }
+  readAll(): Result {
+    const res: Result = {
+      html: '',
+      settings: '',
+      style: '',
+      js: {},
+      assets: {},
+    };
 
-  readStyle(): string {
-    const filename =
-      this._template === Template.Mobile ? kPathStyleMobile : kPathStyleDesktop;
-    return this.read(path.join(this._workingDir, filename));
-  }
-
-  readSettings(): string {
-    return this.read(path.join(this._workingDir, kPathSettingPath));
-  }
-
-  readEngineSource(): string {
-    return this.read(path.join(this._workingDir, kPathEnginePath));
-  }
-
-  readScriptSource(): string {
-    return this.read(path.join(this._workingDir, kPathScript));
-  }
-
-  readInternalScriptSource(): string {
-    return this.read(path.join(this._workingDir, kPathInternalScript));
-  }
-
-  readerAssets(): MapString | undefined {
-    const assetsDir = path.join(this._workingDir, kPathAssets);
-    const res: MapString = {};
+    // Get all scripts + assets files
     const filenames: string[] = [];
-    this.walk(filenames, assetsDir);
+    this.walk(filenames, this._workingDir);
+
     for (const filename of filenames) {
-      // Ignore script
-      if (path.extname(filename) === '.js') {
+      const key = filename.replace(this._workingDir, '');
+      const value = this.read(filename);
+      const ext = path.extname(filename);
+      switch (ext) {
+      case '.html':
+        if (filename.includes(kPathHTML)) {
+          res.html = value;
+        }
+        break;
+      case '.css':
+        if (
+          filename.includes(kPathStyleMobile) &&
+            this._template === Template.Mobile
+        ) {
+          res.style = value;
+        } else if (
+          filename.includes(kPathStyleDesktop) &&
+            this._template === Template.Desktop
+        ) {
+          res.style = value;
+        } else {
+          // console.warn('Unknow CSS', filename);
+        }
+        break;
+      case '.js':
+        // settings
+        if (filename.includes(kPathSetting)) {
+          res.settings = value;
+        } else {
+          // js
+          res.js[key] = value;
+        }
+        break;
+      default:
+        res.assets[key] = value;
         break;
       }
-
-      // Remove `this._workingDir/kPathAssets`
-      const key = filename.replace(assetsDir, '');
-      res[key] = this.read(filename);
     }
 
     return res;
+  }
+
+  writeJSON(value: Result, filename: string) {
+    const data = JSON.stringify(value, null, 2);
+    fs.writeFileSync(filename, data);
   }
 }
 
