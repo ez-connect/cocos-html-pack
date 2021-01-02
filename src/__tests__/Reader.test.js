@@ -7,5 +7,4 @@ Reader.setWorkingDir(path.join('src', '__tests__', 'example'));
 test('read all', () => {
   const data = Reader.readAll();
   expect(data).toBeDefined();
-  Reader.writeJSON(data, path.join('src', '__tests__', 'game.json'));
 });

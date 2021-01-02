@@ -1,21 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-type MapString = { [key: string]: string };
-
-interface Result {
-  html: string;
-  settings: string;
-  style: string;
-  js: MapString;
-  assets: MapString;
-}
-
-// Template
-enum Template {
-  Mobile,
-  Desktop,
-}
+import { MapString, Resource, Template } from './types';
 
 // Encode to base64 for these files
 const kBinaryFormat: MapString = {
@@ -35,8 +21,8 @@ const kPathHTML = 'index.html';
 const kPathStyleDesktop = 'style-desktop.css';
 // style-mobile.css
 const kPathStyleMobile = 'style-mobile.css';
-// settings.json
-const kPathSetting = path.join('src', 'settings.js');
+// // settings.json
+// const kPathSetting = path.join('src', 'settings.js');
 // // cocos2d-js-min.js
 // const kPathEngine = 'cocos2d-js-min.js';
 // // assets
@@ -86,10 +72,9 @@ class Reader {
     }
   }
 
-  readAll(): Result {
-    const res: Result = {
+  readAll(): Resource {
+    const res: Resource = {
       html: '',
-      settings: '',
       style: '',
       js: {},
       assets: {},
@@ -125,13 +110,7 @@ class Reader {
         }
         break;
       case '.js':
-        // settings
-        if (filename.includes(kPathSetting)) {
-          res.settings = value;
-        } else {
-          // js
-          res.js[key] = value;
-        }
+        res.js[key] = value;
         break;
       default:
         res.assets[key] = value;
@@ -140,11 +119,6 @@ class Reader {
     }
 
     return res;
-  }
-
-  writeJSON(value: Result, filename: string) {
-    const data = JSON.stringify(value, null, 2);
-    fs.writeFileSync(filename, data);
   }
 }
 
