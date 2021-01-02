@@ -6,14 +6,20 @@
   "repository": "https://github.com/ez-connect/cocos-web-mobile-template.git",
   "author": "Vinh <thanh.vinh@hotmail.com>",
   "license": "MIT",
+  "bin": {
+    "cocos-html-pack": "lib/cocos-html-pack.js"
+  },
   "scripts": {
     "test": "jest",
     "lint": "eslint ./src/**/*.ts --fix",
     "build:clean": "node -e \"const fs = require('fs'); fs.rmdirSync('./lib', { recursive: true });\"",
     "build": "yarn build:clean && tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "commander": "^6.2.1"
+  },
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.17",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
