@@ -89,7 +89,7 @@ class Reader {
 
       let key = filename.replace(`${assetsDir}${path.sep}`, '');
       if (path.sep === '\\') {
-        key = key.replace('\\', '/');
+        key = key.replace(/\\/g, '/'); // replaceAll not supports
       }
       const value = this.read(filename);
       assets[key] = value;

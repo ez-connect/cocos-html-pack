@@ -151,8 +151,8 @@ if (window.document) {
     console.log(nameOrUrl)
     var str = window.assets[nameOrUrl + '/config.json'];
     if (str) {
-      str.base = nameOrUrl + '/';
       var data = JSON.parse(str);
+      data.base = nameOrUrl + '/';
       onComplete(null, data);
     } else {
       throw new Error('Cannot found:', nameOrUrl);
