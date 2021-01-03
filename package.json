@@ -1,5 +1,5 @@
 {
-  "name": "cocos-web-mobile-template",
+  "name": "cocos-html-pack",
   "version": "0.0.1",
   "description": "Single html web mobile template for Cocos",
   "main": "lib/index.js",
