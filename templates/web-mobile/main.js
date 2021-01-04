@@ -362,6 +362,7 @@ if (window.document) {
 
   cc.assetManager.downloader.register('bundle', loadBundle);
   cc.assetManager.downloader.register('.json', loadJson);
+  cc.assetManager.downloader.register('.webp', loadImage);
   cc.assetManager.downloader.register('.png', loadImage);
   cc.assetManager.downloader.register('.jpg', loadImage);
   cc.assetManager.downloader.register('.jpeg', loadImage);
