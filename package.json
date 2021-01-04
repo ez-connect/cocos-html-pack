@@ -1,13 +1,13 @@
 {
   "name": "cocos-html-pack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Single html web mobile template for Cocos",
   "main": "lib/index.js",
   "repository": "https://github.com/ez-connect/cocos-web-mobile-template.git",
   "author": "Vinh <thanh.vinh@hotmail.com>",
   "license": "MIT",
   "bin": {
-    "cocos-html-pack": "lib/cocos-html-pack.js"
+    "cocos-html-pack": "node lib/cocos-html-pack.js"
   },
   "scripts": {
     "test": "jest",
