@@ -35,12 +35,7 @@ const kPathMainJS = 'main.js';
 const kPathJS = path.join(kPathAssets, 'main', 'index.js');
 
 class Reader {
-  _workingDir = 'build/web-mobile';
   _template: Template = Template.Mobile;
-
-  setWorkingDir(value: string) {
-    this._workingDir = value;
-  }
 
   setTemplate(value: Template) {
     this._template = value;
@@ -74,10 +69,10 @@ class Reader {
     }
   }
 
-  readAll(): Resource {
+  readAll(dir: string): Resource {
     // Get all scripts + assets files
     const filenames: string[] = [];
-    const assetsDir = path.join(this._workingDir, kPathAssets);
+    const assetsDir = path.join(dir, kPathAssets);
     this.walk(filenames, assetsDir);
 
     const assets: MapString = {};
@@ -96,17 +91,17 @@ class Reader {
     }
 
     return {
-      html: this.read(path.join(this._workingDir, kPathHTML)),
+      html: this.read(path.join(dir, kPathHTML)),
       style:
         this._template === Template.Mobile
-          ? this.read(path.join(this._workingDir, kPathStyleMobile))
-          : this.read(path.join(this._workingDir, kPathStyleDesktop)),
+          ? this.read(path.join(dir, kPathStyleMobile))
+          : this.read(path.join(dir, kPathStyleDesktop)),
       assets,
-      settings: this.read(path.join(this._workingDir, kPathSetting)),
-      engineJS: this.read(path.join(this._workingDir, kPathEngineJS)),
-      internalJS: this.read(path.join(this._workingDir, kPathInternalJS)),
-      mainJS: this.read(path.join(this._workingDir, kPathMainJS)),
-      js: this.read(path.join(this._workingDir, kPathJS)),
+      settings: this.read(path.join(dir, kPathSetting)),
+      engineJS: this.read(path.join(dir, kPathEngineJS)),
+      internalJS: this.read(path.join(dir, kPathInternalJS)),
+      mainJS: this.read(path.join(dir, kPathMainJS)),
+      js: this.read(path.join(dir, kPathJS)),
     };
   }
 }

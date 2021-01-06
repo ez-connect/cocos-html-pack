@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-
 import { Resource } from './types';
 
 class Packer {
@@ -55,14 +53,6 @@ class Packer {
     res = res.replace(jsHolder, `<script>\n${js}</script>`);
 
     return res;
-  }
-
-  write(filename: string, value: string) {
-    fs.writeFileSync(filename, value);
-  }
-
-  writeJSON(filename: string) {
-    this.write(filename, JSON.stringify(this._data, null, 2));
   }
 }
 

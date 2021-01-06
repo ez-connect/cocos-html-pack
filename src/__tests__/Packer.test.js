@@ -1,12 +1,11 @@
 /* eslint-disable */
 const path = require('path');
-const { Packer, Reader } = require('../../lib/packer');
+const { Packer, Reader, Util } = require('../../lib');
 
 test('pack', () => {
-  Reader.setWorkingDir(path.join('src', '__tests__', 'example'));
-  const data = Reader.readAll();
+  const data = Reader.readAll(path.join('src', '__tests__', 'example'));
   Packer.load(data, 'Single HTML');
-  Packer.writeJSON(path.join('src', '__tests__', 'game.json'));
+  Util.writeJSON(path.join('src', '__tests__', 'game.json'), data);
   const html = Packer.patch();
-  Packer.write(path.join('src', '__tests__', 'game.html'), html);
+  Util.write(path.join('src', '__tests__', 'game.html'), html);
 });
