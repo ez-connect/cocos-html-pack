@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { MapString, Resource, Template } from './types';
+import { Util } from './Util';
 
 // Encode to base64 for these files
 const kBinaryFormat: MapString = {
@@ -54,26 +55,11 @@ class Reader {
     return data.toString('utf-8');
   }
 
-  walk(res: string[], dir: string): void {
-    const names = fs.readdirSync(dir);
-    for (const name of names) {
-      const filename = path.join(dir, name);
-
-      if (fs.statSync(filename).isDirectory()) {
-        // Walk into each dir
-        this.walk(res, filename);
-      } else {
-        // Or break
-        res.push(filename);
-      }
-    }
-  }
-
   readAll(dir: string): Resource {
     // Get all scripts + assets files
     const filenames: string[] = [];
     const assetsDir = path.join(dir, kPathAssets);
-    this.walk(filenames, assetsDir);
+    Util.walk(filenames, assetsDir);
 
     const assets: MapString = {};
     for (const filename of filenames) {

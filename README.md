@@ -36,7 +36,8 @@ Options:
   -i, --input <path>   input dir, build/web-mobile for example
   -o, --output <path>  output dir
   -t, --title <value>  page title if use the default template
-  -m, --min            minimize HTML
+  --minify             compress js, css and html
+  --tinify <key>       compress and optimize JPEG and PNG images
   -h, --help           display help for command
 ```
 
@@ -45,7 +46,7 @@ Options:
 Pack from `build/web-mobile` to `build/web-mobile-pack`
 
 ```
-cocos-html-pack --input build/web-mobile build/web-mobile-pack --title Test
+cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --title Test
 ```
 
 If you want to override templates
@@ -58,6 +59,18 @@ Add or change templates in `./pack-templates`, they will be used instead of defa
 
 ```
 cocos-html-pack --input build/web-mobile build/web-mobile-pack
+```
+
+Minify
+
+```
+cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --minify
+```
+
+Minify & compress PNG
+
+```
+cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --minify --tinify <your-tinypng-key>
 ```
 
 ---
