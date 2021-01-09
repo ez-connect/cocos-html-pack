@@ -11,10 +11,8 @@ const kBinaryFormat: MapString = {
   '.jpg': 'data:image/jpeg;base64,',
   '.mp3': '',
   '.ttf': '',
-  '.plist': 'data:text/plist;base64,',
+  // '.plist': 'data:text/plist;base64,',
 };
-
-// const kBuildDir = path.join('build', 'web-mobile');
 
 // index.html
 const kPathHTML = 'index.html';

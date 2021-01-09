@@ -1,11 +1,18 @@
 {
   "name": "cocos-html-pack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Single html web mobile template for Cocos",
   "main": "lib/index.js",
   "repository": "https://github.com/ez-connect/cocos-web-mobile-template.git",
   "author": "Vinh <thanh.vinh@hotmail.com>",
   "license": "MIT",
+  "keywords": [
+    "cocos",
+    "html5",
+    "execute",
+    "bin",
+    "util"
+  ],
   "bin": "./lib/cli.js",
   "scripts": {
     "pretest": "yarn build",
@@ -22,12 +29,12 @@
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^26.0.20",
     "@types/minify": "^6.0.0",
-    "@types/node": "^14.14.17",
-    "@typescript-eslint/eslint-plugin": "^4.11.1",
-    "@typescript-eslint/parser": "^4.11.1",
-    "eslint": "^7.16.0",
+    "@types/node": "^14.14.20",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
+    "eslint": "^7.17.0",
     "jest": "^26.6.3",
     "typescript": "^4.1.3"
   }

@@ -148,7 +148,6 @@ if (window.document) {
 
   // Bundle
   var loadBundle = function (nameOrUrl, options, onComplete) {
-    console.log(nameOrUrl)
     var str = window.assets[nameOrUrl + '/config.json'];
     if (str) {
       var data = JSON.parse(str);

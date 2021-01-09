@@ -14,7 +14,7 @@ const kOverrideTemplatesDir = 'pack-templates';
 async function main(templates: boolean, input: string, output: string, title: string, minify: boolean, tinify: string) {
   if (templates) {
     console.log(`Copy templates to '${kOverrideTemplatesDir}'`);
-    if (fs.statSync(kOverrideTemplatesDir)) {
+    if (fs.existsSync(kOverrideTemplatesDir)) {
       fs.rmdirSync(kOverrideTemplatesDir, { recursive: true });
     }
 
@@ -42,7 +42,7 @@ async function main(templates: boolean, input: string, output: string, title: st
   }
 
   // Copy all from input
-  console.log(input, '->', output);
+  console.log('Pack', input, '->', output);
   if (fs.existsSync(output)) {
     fs.rmdirSync(output, { recursive: true });
   }
@@ -53,7 +53,14 @@ async function main(templates: boolean, input: string, output: string, title: st
   // Check override templates
   console.log('Copy templates');
   const platform = path.basename(input); // build flatform name
-  const templateDir = fs.existsSync(path.join(kOverrideTemplatesDir, platform))
+  const useOverrideTemplate = fs.existsSync(path.join(kOverrideTemplatesDir, platform));
+  if (useOverrideTemplate) {
+    console.log('  use override templates');
+  } else {
+    console.log('  use built-in template');
+  }
+
+  const templateDir = useOverrideTemplate
     ? path.join(kOverrideTemplatesDir, platform)
     : path.join(require.main?.path ?? '', '..', kOverrideTemplatesDir, platform);
   Util.copyFilesSync(templateDir, output);
@@ -76,7 +83,7 @@ async function main(templates: boolean, input: string, output: string, title: st
   }
 
   // Remove unused files
-  console.log('Remove unused files...');
+  console.log('Remove unused files');
   fs.unlinkSync(path.join(output, 'main.js'));
   const keepFiles = fs.readdirSync(templateDir);
   const filenames = fs.readdirSync(output);
