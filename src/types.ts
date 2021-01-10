@@ -1,4 +1,3 @@
-
 export type MapString = { [key: string]: string };
 
 export interface Resource {
@@ -10,10 +9,4 @@ export interface Resource {
   internalJS: string;
   mainJS: string;
   js: string;
-}
-
-// Template
-export enum Template {
-  Mobile,
-  Desktop,
 }

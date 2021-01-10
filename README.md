@@ -31,14 +31,15 @@ Disable `MD5 Cache` in `Project > Build...`
 cocos-html-pack [options]
 
 Options:
-  -V, --version        output the version number
-  --templates          override template dir in 'pack-templates'
-  -i, --input <path>   input dir, build/web-mobile for example
-  -o, --output <path>  output dir
-  -t, --title <value>  page title if use the default template
-  --minify             compress js, css and html
-  --tinify <key>       compress and optimize JPEG and PNG images
-  -h, --help           display help for command
+  -V, --version          output the version number
+  --templates            override template dir in 'pack-templates'
+  -i, --input <path>     input dir, build/web-mobile for example
+  -o, --output <path>    output dir
+  -t, --title <value>    page title if use the default template
+  --orientation <value>  portrait or landscape (default: "portrait")
+  --minify               compress js, css and html
+  --tinify <key>         compress and optimize JPEG and PNG images
+  -h, --help             display help for command
 ```
 
 ## Example

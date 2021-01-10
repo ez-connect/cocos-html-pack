@@ -3,9 +3,11 @@ const path = require('path');
 const { Packer, Reader, Util } = require('../../lib');
 
 test('pack', () => {
-  const data = Reader.readAll(path.join('src', '__tests__', 'example'));
-  Packer.load(data, 'Single HTML');
+  const reader = new Reader();
+  const data = reader.readAll(path.join('src', '__tests__', 'example'));
   Util.writeJSON(path.join('src', '__tests__', 'game.json'), data);
-  const html = Packer.patch();
+
+  const packer = new Packer(data);
+  const html = packer.patch('Single HTML', 'landscape');
   Util.write(path.join('src', '__tests__', 'game.html'), html);
 });

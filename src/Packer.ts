@@ -1,30 +1,33 @@
 import { Resource } from './types';
 
-class Packer {
-  _data?: Resource;
+// HTML placeholder
+enum PlaceHolder {
+  Title = '${title}', // html title
+  Style = '${style}', // html style
+  Orientation = '${orientation}', // html orientation
+  Assets = '${assets}', // all assets
+  Settings = '${settings.js}',
+  EngineJS = '${cocos2d-js-min.js}',
+  InternaJS = '${assets/internal/index.js}',
+  // ResouceJS = '${resources/index.js}', // the same internal js
+  MainJS = '${main.js}',
+  ProjectJS = '${assets/main/index.js}', // assets/scripts bundle
+}
 
-  load(value: Resource, title?: string, titleHolder = '${title}') {
+export class Packer {
+  _data: Resource;
+
+  constructor(value: Resource) {
     this._data = value;
-    if (title) {
-      this._data.html = this._data.html.replace(titleHolder, title);
-    }
   }
 
-  patch(
-    styleHolder = '${style}',
-    assetsHolder = '${assets}',
-    settingsHolder = '${settings.js}',
-    engineJSHolder = '${cocos2d-js-min.js}',
-    internaJSlHolder = '${assets/internal/index.js}',
-    mainJSHolder = '${main.js}',
-    jsHolder = '${assets/main/index.js}',
-  ): string {
-    if (!this._data) {
-      throw new Error('No resouces found');
-    }
+  patch(title: string, orientation = 'portrait'): string {
+    let { html } = this._data;
+    html = html.replace(PlaceHolder.Title, title);
+    const regex = new RegExp(`\\${PlaceHolder.Orientation}`, 'g');
+    html = html.replace(regex, orientation); // replaceAll not supports
 
     const {
-      html,
       style,
       assets,
       settings,
@@ -35,26 +38,35 @@ class Packer {
     } = this._data;
 
     // Style
-    let res = html.replace(styleHolder, `<style>\n${style}</style>`);
+    let res = html.replace(PlaceHolder.Style, this._getStyleTag(style));
     // Assets
     res = res.replace(
-      assetsHolder,
-      `<script>\nwindow.assets=${JSON.stringify(assets)}\n</script>`,
+      PlaceHolder.Assets,
+      this._getJSTag(`window.assets=${JSON.stringify(assets)}\n`),
     );
     // Settings
-    res = res.replace(settingsHolder, `<script>\n${settings}</script>`);
+    res = res.replace(PlaceHolder.Settings, this._getJSTag(settings));
     // Engine
-    res = res.replace(engineJSHolder, `<script>\n${engineJS}</script>`);
+    res = res.replace(PlaceHolder.EngineJS, this._getJSTag(engineJS));
     // Internal
-    res = res.replace(internaJSlHolder, `<script>\n${internalJS}</script>`);
+    res = res.replace(PlaceHolder.InternaJS, this._getJSTag(internalJS));
     // Main
-    res = res.replace(mainJSHolder, `<script>\n${mainJS}</script>`);
+    res = res.replace(PlaceHolder.MainJS, this._getJSTag(mainJS));
     // JS
-    res = res.replace(jsHolder, `<script>\n${js}</script>`);
+    res = res.replace(PlaceHolder.ProjectJS, this._getJSTag(js));
 
     return res;
   }
-}
 
-const singleton = new Packer();
-export { singleton as Packer };
+  private _getHTMLTag(tag: string, value: string): string {
+    return `<${tag}>\n${value}</${tag}>`;
+  }
+
+  private _getJSTag(value: string): string {
+    return this._getHTMLTag('script', value);
+  }
+
+  private _getStyleTag(value: string): string {
+    return this._getHTMLTag('style', value);
+  }
+}

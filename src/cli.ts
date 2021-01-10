@@ -11,7 +11,15 @@ import { Util } from './Util';
 
 const kOverrideTemplatesDir = 'pack-templates';
 
-async function main(templates: boolean, input: string, output: string, title: string, minify: boolean, tinify: string) {
+async function main(
+  templates: boolean,
+  input: string,
+  output: string,
+  title: string,
+  orientation: string,
+  minify: boolean,
+  tinify: string,
+) {
   if (templates) {
     console.log(`Copy templates to '${kOverrideTemplatesDir}'`);
     if (fs.existsSync(kOverrideTemplatesDir)) {
@@ -53,7 +61,9 @@ async function main(templates: boolean, input: string, output: string, title: st
   // Check override templates
   console.log('Copy templates');
   const platform = path.basename(input); // build flatform name
-  const useOverrideTemplate = fs.existsSync(path.join(kOverrideTemplatesDir, platform));
+  const useOverrideTemplate = fs.existsSync(
+    path.join(kOverrideTemplatesDir, platform),
+  );
   if (useOverrideTemplate) {
     console.log('  use override templates');
   } else {
@@ -62,7 +72,12 @@ async function main(templates: boolean, input: string, output: string, title: st
 
   const templateDir = useOverrideTemplate
     ? path.join(kOverrideTemplatesDir, platform)
-    : path.join(require.main?.path ?? '', '..', kOverrideTemplatesDir, platform);
+    : path.join(
+      require.main?.path ?? '',
+      '..',
+      kOverrideTemplatesDir,
+      platform,
+    );
   Util.copyFilesSync(templateDir, output);
 
   // Compress images
@@ -72,9 +87,10 @@ async function main(templates: boolean, input: string, output: string, title: st
   }
 
   console.log('Pack');
-  const data = Reader.readAll(output);
-  Packer.load(data, title);
-  const html = Packer.patch();
+  const reader = new Reader(platform);
+  const data = reader.readAll(output);
+  const packer = new Packer(data);
+  const html = packer.patch(title, orientation);
   Util.write(path.join(output, 'index.html'), html);
 
   if (minify) {
@@ -98,22 +114,35 @@ async function main(templates: boolean, input: string, output: string, title: st
     }
   }
 
-  console.log('File size:', fs.statSync(path.join(output, 'index.html')).size, 'bytes');
+  console.log(
+    'File size:',
+    fs.statSync(path.join(output, 'index.html')).size,
+    'bytes',
+  );
 }
 
 const program = new Command();
 program
   .name('cocos-html-pack ')
   .description('Single html web mobile template for Cocos')
-  .version('0.1.0')
+  .version('0.1.3')
   .option('--templates', `override template dir in '${kOverrideTemplatesDir}'`)
   .option('-i, --input <path>', 'input dir, build/web-mobile for example')
   .option('-o, --output <path>', 'output dir')
   .option('-t, --title <value>', 'page title if use the default template')
+  .option('--orientation <value>', 'portrait or landscape', 'portrait')
   .option('--minify', 'compress js, css and html')
   .option('--tinify <key>', 'compress and optimize JPEG and PNG images');
 
 program.parse(process.argv);
 
-const { templates, input, output, title, minify, tinify } = program;
-main(templates, input, output, title, minify, tinify);
+const {
+  templates,
+  input,
+  output,
+  title,
+  orientation,
+  minify,
+  tinify,
+} = program;
+main(templates, input, output, title, minify, orientation, tinify);

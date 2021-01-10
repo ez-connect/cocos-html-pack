@@ -1,8 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { MapString, Resource, Template } from './types';
+import { MapString, Resource } from './types';
 import { Util } from './Util';
+
+// Template
+export type Platform = 'web-mobile' | 'web-desktop' | string;
 
 // Encode to base64 for these files
 const kBinaryFormat: MapString = {
@@ -33,11 +36,11 @@ const kPathMainJS = 'main.js';
 // assets/main/index.js
 const kPathJS = path.join(kPathAssets, 'main', 'index.js');
 
-class Reader {
-  _template: Template = Template.Mobile;
+export class Reader {
+  _platform: Platform;
 
-  setTemplate(value: Template) {
-    this._template = value;
+  constructor(platform: Platform = 'web-mobile') {
+    this._platform = platform;
   }
 
   read(filename: string): string {
@@ -77,9 +80,9 @@ class Reader {
     return {
       html: this.read(path.join(dir, kPathHTML)),
       style:
-        this._template === Template.Mobile
-          ? this.read(path.join(dir, kPathStyleMobile))
-          : this.read(path.join(dir, kPathStyleDesktop)),
+        this._platform === 'web-desktop'
+          ? this.read(path.join(dir, kPathStyleDesktop))
+          : this.read(path.join(dir, kPathStyleMobile)),
       assets,
       settings: this.read(path.join(dir, kPathSetting)),
       engineJS: this.read(path.join(dir, kPathEngineJS)),
@@ -89,6 +92,3 @@ class Reader {
     };
   }
 }
-
-const singleton = new Reader();
-export { singleton as Reader };
