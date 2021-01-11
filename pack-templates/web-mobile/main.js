@@ -147,20 +147,26 @@ if (window.document) {
   // }
 
   // Bundle
-  var loadBundle = function (nameOrUrl, options, onComplete) {
-    var str = window.assets[nameOrUrl + '/config.json'];
+  var loadBundle = function (url, options, onComplete) {
+    var str = window.assets[url + '/config.json'];
     if (str) {
       var data = JSON.parse(str);
-      data.base = nameOrUrl + '/';
+      data.base = url + '/';
       onComplete(null, data);
     } else {
-      throw new Error('Cannot found:', nameOrUrl);
+      throw new Error('Cannot found:', url);
     }
   };
 
   // Json
-  var loadJson = function (nameOrUrl, options, onComplete) {
-    var data = JSON.parse(window.assets[nameOrUrl]);
+  var loadJson = function (url, options, onComplete) {
+    var data = JSON.parse(window.assets[url]);
+    onComplete(null, data);
+  };
+
+  // Plist
+  var loadRAW = function (url, options, onComplete) {
+    var data = window.assets[url];
     onComplete(null, data);
   };
 
@@ -195,8 +201,8 @@ if (window.document) {
     return img;
   }
 
-  var loadImage = function (nameOrUrl, options, onComplete) {
-    loadDomImage(nameOrUrl, options, onComplete);
+  var loadImage = function (url, options, onComplete) {
+    loadDomImage(url, options, onComplete);
   };
 
   // Audio
@@ -361,6 +367,7 @@ if (window.document) {
 
   cc.assetManager.downloader.register('bundle', loadBundle);
   cc.assetManager.downloader.register('.json', loadJson);
+  cc.assetManager.downloader.register('.plist', loadRAW);
   cc.assetManager.downloader.register('.webp', loadImage);
   cc.assetManager.downloader.register('.png', loadImage);
   cc.assetManager.downloader.register('.jpg', loadImage);
