@@ -1,6 +1,6 @@
 {
   "name": "cocos-html-pack",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Single html web mobile template for Cocos",
   "main": "lib/index.js",
   "repository": "https://github.com/ez-connect/cocos-web-mobile-template.git",
@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "commander": "^6.2.1",
-    "lz-string": "^1.4.4",
     "minify": "^6.0.1",
     "tinify": "^1.6.0-beta.2"
   },
