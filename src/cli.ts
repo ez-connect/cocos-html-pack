@@ -125,7 +125,7 @@ const program = new Command();
 program
   .name('cocos-html-pack ')
   .description('Single html web mobile template for Cocos')
-  .version('0.1.5')
+  .version('0.1.6')
   .option('--templates', `override template dir in '${kOverrideTemplatesDir}'`)
   .option('-i, --input <path>', 'input dir, build/web-mobile for example')
   .option('-o, --output <path>', 'output dir')
@@ -145,4 +145,5 @@ const {
   minify,
   tinify,
 } = program;
-main(templates, input, output, title, minify, orientation, tinify);
+
+main(templates, input, output, title, orientation, minify, tinify);
