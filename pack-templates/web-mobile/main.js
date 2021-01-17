@@ -165,8 +165,8 @@ if (window.document) {
   };
 
   // Plist
-  var loadRAW = function (url, options, onComplete) {
-    var data = window.assets[url];
+  var loadPlist = function (url, options, onComplete) {
+    var data = atob(window.assets[url]);
     onComplete(null, data);
   };
 
@@ -367,7 +367,7 @@ if (window.document) {
 
   cc.assetManager.downloader.register('bundle', loadBundle);
   cc.assetManager.downloader.register('.json', loadJson);
-  cc.assetManager.downloader.register('.plist', loadRAW);
+  cc.assetManager.downloader.register('.plist', loadPlist);
   cc.assetManager.downloader.register('.webp', loadImage);
   cc.assetManager.downloader.register('.png', loadImage);
   cc.assetManager.downloader.register('.jpg', loadImage);

@@ -14,7 +14,9 @@ const kBinaryFormat: MapString = {
   '.jpg': 'data:image/jpeg;base64,',
   '.mp3': '',
   '.ttf': '',
-  // '.plist': 'data:text/plist;base64,',
+  // Facebook Playable Preview issue if plist in plain text
+  // Because of missing `</dict></plist>` after injected
+  '.plist': '',
 };
 
 // index.html
