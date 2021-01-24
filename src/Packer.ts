@@ -35,8 +35,9 @@ export class Packer {
     const regex = new RegExp(`\\${PlaceHolder.Orientation}`, 'g');
     html = html.replace(regex, orientation); // replaceAll not supports
 
-    let { assets, engineJS, js } = this._data;
     const { style, settings, internalJS, mainJS } = this._data;
+    let { assets, engineJS, js } = this._data;
+
     // Style
     let res = html.replace(PlaceHolder.Style, this._getStyleTag(style));
 

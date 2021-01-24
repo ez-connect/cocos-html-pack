@@ -1,7 +1,5 @@
 /* eslint-disable */
-/**
- * Copy from ./build/web-mobile/main.js of the default template
- */
+
 window.boot = function () {
   var settings = window._CCSettings;
   window._CCSettings = undefined;
@@ -128,7 +126,57 @@ window.boot = function () {
   }
 };
 
+function base64toBlob(base64, type) {
+  var bstr = atob(base64, type),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {
+    type: type,
+  });
+}
+
+function base64toArray(base64) {
+  var bstr = atob(base64),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return u8arr;
+}
+
+/// Decompress assets + js
+function decompress() {
+  if (window.compressed) {
+    let buf = pako.inflate(base64toArray(window.compressed));
+    const text = new TextDecoder().decode(buf);
+    const data = JSON.parse(text);
+
+    // Assets
+    window.assets = data.assets;
+
+    // EngineJS
+    let e = document.createElement('script');
+    e.innerHTML = data.engineJS;
+    document.body.appendChild(e);
+
+    // JS
+    e = document.createElement('script');
+    e.innerHTML = data.js;
+    document.body.appendChild(e);
+
+    // Clear
+    window.compressed = null;
+  }
+}
+
 if (window.document) {
+  window.decompress(); // decompress first
+
   // var isRuntime = typeof loadRuntime === 'function';
   // if (isRuntime) {
   //   require('src/settings.c7029.js');
@@ -209,29 +257,6 @@ if (window.document) {
   var __audioSupport = cc.sys.__audioSupport;
   var formatSupport = __audioSupport.format;
   var context = __audioSupport.context;
-
-  function base64toBlob(base64, type) {
-    var bstr = atob(base64, type),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], {
-      type: type,
-    });
-  }
-
-  function base64toArray(base64) {
-    var bstr = atob(base64),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return u8arr;
-  }
 
   function loadDomAudio(url, onComplete) {
     var dom = document.createElement('audio');
