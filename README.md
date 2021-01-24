@@ -1,24 +1,18 @@
 # Cocos HTML Pack
 
-Single html web mobile template for Cocos
-
-Based on https://github.com/revelatiosgn/SingleHTML5Generator
+Single html web mobile template for Cocos. It's based on [SingleHTML5Generator](https://github.com/revelatiosgn/SingleHTML5Generator) with bug fixes and some enhancements
+- Written in NodeJS
+- All resouces are packed into a single HTML file
+- Minify your HTML
+- Tinify your images
+- Compress resources to reduce the file size
 
 Tested on Cocos Creator v2.4.3
 
 ## Install
 
-As a global package
-
 ```
 npm i -g cocos-html-pack
-```
-
-Or a dependency package
-
-```
-npm i cocos-html-pack --save-dev
-yarn add -D cocos-html-pack
 ```
 
 ## Build config
@@ -39,6 +33,7 @@ Options:
   --orientation <value>  portrait or landscape (default: "portrait")
   --minify               compress js, css and html
   --tinify <key>         compress and optimize JPEG and PNG images
+  --compress             compress assets and js
   -h, --help             display help for command
 ```
 
@@ -68,10 +63,16 @@ Minify
 cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --minify
 ```
 
-Minify & compress PNG
+Minify & tinify
 
 ```
 cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --minify --tinify <your-tinypng-key>
+```
+
+Minify & compress
+
+```
+cocos-html-pack --input build/web-mobile --output build/web-mobile-pack --minify --compress
 ```
 
 ---
