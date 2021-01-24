@@ -19,6 +19,7 @@ async function main(
   orientation: string,
   minify: boolean,
   tinify: string,
+  compress?: boolean,
 ) {
   if (templates) {
     console.log(`Copy templates to '${kOverrideTemplatesDir}'`);
@@ -90,7 +91,7 @@ async function main(
   const reader = new Reader(platform);
   const data = reader.readAll(output);
   const packer = new Packer(data);
-  const html = packer.patch(title, orientation);
+  const html = packer.patch(title, orientation, compress);
   Util.write(path.join(output, 'index.html'), html);
 
   if (minify) {
@@ -100,17 +101,17 @@ async function main(
 
   // Remove unused files
   console.log('Remove unused files');
-  fs.unlinkSync(path.join(output, 'main.js'));
-  const keepFiles = fs.readdirSync(templateDir);
   const filenames = fs.readdirSync(output);
   for (const name of filenames) {
-    if (!keepFiles.includes(name)) {
-      const filename = path.join(output, name);
-      if (fs.statSync(filename).isFile()) {
-        fs.unlinkSync(filename);
-      } else {
-        fs.rmdirSync(filename, { recursive: true });
-      }
+    if (name === 'index.html') {
+      continue;
+    }
+
+    const filename = path.join(output, name);
+    if (fs.statSync(filename).isFile()) {
+      fs.unlinkSync(filename);
+    } else {
+      fs.rmdirSync(filename, { recursive: true });
     }
   }
 
@@ -125,14 +126,15 @@ const program = new Command();
 program
   .name('cocos-html-pack ')
   .description('Single html web mobile template for Cocos')
-  .version('0.1.6')
+  .version('0.2.0')
   .option('--templates', `override template dir in '${kOverrideTemplatesDir}'`)
   .option('-i, --input <path>', 'input dir, build/web-mobile for example')
   .option('-o, --output <path>', 'output dir')
   .option('-t, --title <value>', 'page title if use the default template')
   .option('--orientation <value>', 'portrait or landscape', 'portrait')
   .option('--minify', 'compress js, css and html')
-  .option('--tinify <key>', 'compress and optimize JPEG and PNG images');
+  .option('--tinify <key>', 'compress and optimize JPEG and PNG images')
+  .option('--compress', 'compress assets and js');
 
 program.parse(process.argv);
 
@@ -144,6 +146,7 @@ const {
   orientation,
   minify,
   tinify,
-} = program;
+  compress,
+} = program.opts();
 
-main(templates, input, output, title, orientation, minify, tinify);
+main(templates, input, output, title, orientation, minify, tinify, compress);

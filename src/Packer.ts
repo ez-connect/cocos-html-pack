@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import pako from 'pako';
 import { Resource } from './types';
 
 // HTML placeholder
@@ -5,6 +8,7 @@ enum PlaceHolder {
   Title = '${title}', // html title
   Style = '${style}', // html style
   Orientation = '${orientation}', // html orientation
+  Compressed = '${compressed}',
   Assets = '${assets}', // all assets
   Settings = '${settings.js}',
   EngineJS = '${cocos2d-js-min.js}',
@@ -21,28 +25,47 @@ export class Packer {
     this._data = value;
   }
 
-  patch(title: string, orientation = 'portrait'): string {
+  patch(
+    title: string,
+    orientation = 'portrait',
+    useCompress?: boolean,
+  ): string {
     let { html } = this._data;
     html = html.replace(PlaceHolder.Title, title);
     const regex = new RegExp(`\\${PlaceHolder.Orientation}`, 'g');
     html = html.replace(regex, orientation); // replaceAll not supports
 
-    const {
-      style,
-      assets,
-      settings,
-      engineJS,
-      internalJS,
-      mainJS,
-      js,
-    } = this._data;
-
+    let { assets, engineJS, js } = this._data;
+    const { style, settings, internalJS, mainJS } = this._data;
     // Style
     let res = html.replace(PlaceHolder.Style, this._getStyleTag(style));
+
+    // Compressed
+    let compressed = '';
+    if (useCompress) {
+      // Compress assets, engineJS and js
+      const uncompressed = JSON.stringify({ assets, engineJS, js });
+      // Remove uncompress data to remove placeholder
+      assets = {};
+      engineJS = '';
+      js = '';
+      // Compress to base64
+      compressed = `window.compressed=\`${Buffer.from(
+        pako.deflate(uncompressed),
+      ).toString('base64')}\`;\n`;
+
+      // Pako source
+      const inflateJS = fs.readFileSync(
+        path.join(__dirname, '../node_modules/pako/dist/pako_inflate.js'),
+      );
+      compressed += inflateJS;
+    }
+    res = res.replace(PlaceHolder.Compressed, this._getJSTag(compressed));
+
     // Assets
     res = res.replace(
       PlaceHolder.Assets,
-      this._getJSTag(`window.assets=${JSON.stringify(assets)}\n`),
+      this._getJSTag(`window.assets=${JSON.stringify(assets)};\n`),
     );
     // Settings
     res = res.replace(PlaceHolder.Settings, this._getJSTag(settings));
@@ -58,15 +81,16 @@ export class Packer {
     return res;
   }
 
-  private _getHTMLTag(tag: string, value: string): string {
+  private _getHTMLTag(tag: string, value?: string): string {
+    if (!value || value.length === 0) return '';
     return `<${tag}>\n${value}</${tag}>`;
   }
 
-  private _getJSTag(value: string): string {
+  private _getJSTag(value?: string): string {
     return this._getHTMLTag('script', value);
   }
 
-  private _getStyleTag(value: string): string {
+  private _getStyleTag(value?: string): string {
     return this._getHTMLTag('style', value);
   }
 }
