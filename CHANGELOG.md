@@ -9,7 +9,7 @@
 ### Changed
 
 - Update `web-mobile` template
-- Supports compress assets and js using [Pako](https://www.npmjs.com/package/pako)
+- Supports compress resources
 
 ## v0.1.7
 
