@@ -1,1 +1,1079 @@
-!function(){"use strict";function e(e,t){return(t||"")+" (SystemJS https://git.io/JvFET#"+e+")"}var t,n="undefined"!=typeof Symbol,r="undefined"!=typeof self,i="undefined"!=typeof document,o=r?self:global;if(i){var s=document.querySelector("base[href]");s&&(t=s.href)}if(!t&&"undefined"!=typeof location){var u=(t=location.href.split("#")[0].split("?")[0]).lastIndexOf("/");-1!==u&&(t=t.slice(0,u+1))}var c=/\\/g;function a(e,t){if(-1!==e.indexOf("\\")&&(e=e.replace(c,"/")),"/"===e[0]&&"/"===e[1])return t.slice(0,t.indexOf(":")+1)+e;if("."===e[0]&&("/"===e[1]||"."===e[1]&&("/"===e[2]||2===e.length&&(e+="/"))||1===e.length&&(e+="/"))||"/"===e[0]){var n,r=t.slice(0,t.indexOf(":")+1);if(n="/"===t[r.length+1]?"file:"!==r?(n=t.slice(r.length+2)).slice(n.indexOf("/")+1):t.slice(8):t.slice(r.length+("/"===t[r.length])),"/"===e[0])return t.slice(0,t.length-n.length-1)+e;for(var i=n.slice(0,n.lastIndexOf("/")+1)+e,o=[],s=-1,u=0;u<i.length;u++)-1!==s?"/"===i[u]&&(o.push(i.slice(s,u+1)),s=-1):"."===i[u]?"."!==i[u+1]||"/"!==i[u+2]&&u+2!==i.length?"/"===i[u+1]||u+1===i.length?u+=1:s=u:(o.pop(),u+=2):s=u;return-1!==s&&o.push(i.slice(s)),t.slice(0,t.length-n.length)+o.join("")}}function f(e,t){return a(e,t)||(-1!==e.indexOf(":")?e:a("./"+e,t))}function l(e,t,n,r,i){for(var o in e){var s=a(o,n)||o,u=e[o];if("string"==typeof u){var c=d(r,a(u,n)||u,i);c?t[s]=c:p("W1",o,u)}}}function h(e,t){if(t[e])return e;var n=e.length;do{var r=e.slice(0,n+1);if(r in t)return r}while(-1!==(n=e.lastIndexOf("/",n-1)))}function v(e,t){var n=h(e,t);if(n){var r=t[n];if(null===r)return;if(!(e.length>n.length&&"/"!==r[r.length-1]))return r+e.slice(n.length);p("W2",n,r)}}function p(t,n,r,i){console.warn(e(t,[r,n].join(", ")))}function d(e,t,n){for(var r=e.scopes,i=n&&h(n,r);i;){var o=v(t,r[i]);if(o)return o;i=h(i.slice(0,i.lastIndexOf("/")),r)}return v(t,e.imports)||-1!==t.indexOf(":")&&t}var g=n&&Symbol.toStringTag,m=n?Symbol():"@";function y(){this[m]={}}var S,w=y.prototype;function b(t,n,r){var i=t[m][n];if(i)return i;var o=[],s=Object.create(null);g&&Object.defineProperty(s,g,{value:"Module"});var u=Promise.resolve().then((function(){return t.instantiate(n,r)})).then((function(r){if(!r)throw Error(e(2,n));var u=r[1]((function(e,t){i.h=!0;var n=!1;if("string"==typeof e)e in s&&s[e]===t||(s[e]=t,n=!0);else{for(var r in e){t=e[r];r in s&&s[r]===t||(s[r]=t,n=!0)}e.__esModule&&(s.__esModule=e.__esModule)}if(n)for(var u=0;u<o.length;u++){var c=o[u];c&&c(s)}return t}),2===r[1].length?{import:function(e){return t.import(e,n)},meta:t.createContext(n)}:void 0);return i.e=u.execute||function(){},[r[0],u.setters||[]]}),(function(e){throw i.e=null,i.er=e,e})),c=u.then((function(e){return Promise.all(e[0].map((function(r,i){var o=e[1][i];return Promise.resolve(t.resolve(r,n)).then((function(e){var r=b(t,e,n);return Promise.resolve(r.I).then((function(){return o&&(r.i.push(o),!r.h&&r.I||o(r.n)),r}))}))}))).then((function(e){i.d=e}))}));return i=t[m][n]={id:n,i:o,n:s,I:u,L:c,h:!1,d:void 0,e:void 0,er:void 0,E:void 0,C:void 0,p:void 0}}function O(e,t,n,r){if(!r[t.id])return r[t.id]=!0,Promise.resolve(t.L).then((function(){return t.p&&null!==t.p.e||(t.p=n),Promise.all(t.d.map((function(t){return O(e,t,n,r)})))})).catch((function(e){if(t.er)throw e;throw t.e=null,e}))}w.import=function(e,t){var n=this;return Promise.resolve(n.prepareImport()).then((function(){return n.resolve(e,t)})).then((function(e){var t=b(n,e);return t.C||function(e,t){return t.C=O(e,t,t,{}).then((function(){return x(e,t,{})})).then((function(){return t.n}))}(n,t)}))},w.createContext=function(e){var t=this;return{url:e,resolve:function(n,r){return Promise.resolve(t.resolve(n,r||e))}}},w.register=function(e,t){S=[e,t]},w.getRegister=function(){var e=S;return S=void 0,e};var E=Object.freeze(Object.create(null));function x(e,t,n){if(!n[t.id]){if(n[t.id]=!0,!t.e){if(t.er)throw t.er;return t.E?t.E:void 0}var r;return t.d.forEach((function(i){try{var o=x(e,i,n);o&&(r=r||[]).push(o)}catch(e){throw t.e=null,t.er=e,e}})),r?Promise.all(r).then(i):i()}function i(){try{var e=t.e.call(E);if(e)return e=e.then((function(){t.C=t.n,t.E=null}),(function(e){throw t.er=e,t.E=null,e})),t.E=e;t.C=t.n,t.L=t.I=void 0}catch(e){throw t.er=e,e}finally{t.e=null}}}o.System=new y;var j,P,R=Promise.resolve(),M={imports:{},scopes:{},depcache:{},integrity:{}},C=i;function L(){[].forEach.call(document.querySelectorAll("script"),(function(n){if(!n.sp)if("systemjs-module"===n.type){if(n.sp=!0,!n.src)return;System.import("import:"===n.src.slice(0,7)?n.src.slice(7):f(n.src,t)).catch((function(e){if(e.message.indexOf("https://git.io/JvFET#3")>-1){var t=document.createEvent("Event");t.initEvent("error",!1,!1),n.dispatchEvent(t)}return Promise.reject(e)}))}else if("systemjs-importmap"===n.type){n.sp=!0;var r=n.src?fetch(n.src,{integrity:n.integrity}).then((function(e){if(!e.ok)throw Error(e.status);return e.text()})).catch((function(t){return t.message=e("W4",n.src)+"\n"+t.message,console.warn(t),"{}"})):n.innerHTML;R=R.then((function(){return r})).then((function(r){!function(t,n,r){var i={};try{i=JSON.parse(n)}catch(t){console.warn(Error(e("W5")))}!function(e,t,n){var r;for(r in e.imports&&l(e.imports,n.imports,t,n,null),e.scopes||{}){var i=f(r,t);l(e.scopes[r],n.scopes[i]||(n.scopes[i]={}),t,n,i)}for(r in e.depcache||{})n.depcache[f(r,t)]=e.depcache[r];for(r in e.integrity||{})n.integrity[f(r,t)]=e.integrity[r]}(i,r,t)}(M,r,n.src||t)}))}}))}if(w.prepareImport=function(e){return(C||e)&&(L(),C=!1),R},i&&(L(),window.addEventListener("DOMContentLoaded",L)),i){window.addEventListener("error",(function(e){W=e.filename,A=e.error}));var I=location.origin}w.createScript=function(e){var t=document.createElement("script");t.async=!0,e.indexOf(I+"/")&&(t.crossOrigin="anonymous");var n=M.integrity[e];return n&&(t.integrity=n),t.src=e,t};var W,A,T={},J=w.register;w.register=function(e,t){if(i&&"loading"===document.readyState&&"string"!=typeof e){var n=document.querySelectorAll("script[src]"),r=n[n.length-1];if(r){r.src,j=e;var o=this;P=setTimeout((function(){T[r.src]=[e,t],o.import(r.src)}))}}else j=void 0;return J.call(this,e,t)},w.instantiate=function(t,n){var r=T[t];if(r)return delete T[t],r;var i=this;return new Promise((function(r,o){var s=w.createScript(t);s.addEventListener("error",(function(){o(Error(e(3,[t,n].join(", "))))})),s.addEventListener("load",(function(){if(document.head.removeChild(s),W===t)o(A);else{var e=i.getRegister();e&&e[0]===j&&clearTimeout(P),r(e)}})),document.head.appendChild(s)}))},w.shouldFetch=function(){return!1},"undefined"!=typeof fetch&&(w.fetch=fetch);var _=w.instantiate,N=/^(text|application)\/(x-)?javascript(;|$)/;w.instantiate=function(t,n){var r=this;return this.shouldFetch(t)?this.fetch(t,{credentials:"same-origin",integrity:M.integrity[t]}).then((function(i){if(!i.ok)throw Error(e(7,[i.status,i.statusText,t,n].join(", ")));var o=i.headers.get("content-type");if(!o||!N.test(o))throw Error(e(4,o));return i.text().then((function(e){return e.indexOf("//# sourceURL=")<0&&(e+="\n//# sourceURL="+t),(0,eval)(e),r.getRegister()}))})):_.apply(this,arguments)},w.resolve=function(n,r){return d(M,a(n,r=r||t)||n,r)||function(t,n){throw Error(e(8,[t,n].join(", ")))}(n,r)};var F=w.instantiate;w.instantiate=function(e,t){var n=M.depcache[e];if(n)for(var r=0;r<n.length;r++)b(this,this.resolve(n[r],e),e);return F.call(this,e,t)},r&&"function"==typeof importScripts&&(w.instantiate=function(e){var t=this;return Promise.resolve().then((function(){return importScripts(e),t.getRegister()}))}),function(e){var t,n,r,i=e.System.constructor.prototype;var o=i.import;i.import=function(i,s){return function(){for(var i in t=n=void 0,e)a(i)||(t?n||(n=i):t=i,r=i)}(),o.call(this,i,s)};var s=[[],function(){return{}}],u=i.getRegister;i.getRegister=function(){var i=u.call(this);if(i)return i;var o,c=function(i){var o,s,u=0;for(var c in e)if(!a(c)){if(0===u&&c!==t||1===u&&c!==n)return c;o?(r=c,s=i&&s||c):o=c===r,u++}return s}(this.firstGlobalProp);if(!c)return s;try{o=e[c]}catch(e){return s}return[[],function(e){return{execute:function(){e(o),e({default:o,__useDefault:!0})}}}]};var c="undefined"!=typeof navigator&&-1!==navigator.userAgent.indexOf("Trident");function a(t){return!e.hasOwnProperty(t)||!isNaN(t)&&t<e.length||c&&e[t]&&"undefined"!=typeof window&&e[t].parent===window}}("undefined"!=typeof self?self:global),function(e){var t=e.System.constructor.prototype,n=/^[^#?]+\.(css|html|json|wasm)([?#].*)?$/;t.shouldFetch=function(e){return n.test(e)};var r=/^application\/json(;|$)/,i=/^text\/css(;|$)/,o=/^application\/wasm(;|$)/,s=t.fetch;t.fetch=function(t,n){return s(t,n).then((function(n){if(!n.ok)return n;var s=n.headers.get("content-type");return r.test(s)?n.json().then((function(e){return new Response(new Blob(['System.register([],function(e){return{execute:function(){e("default",'+JSON.stringify(e)+")}}})"],{type:"application/javascript"}))})):i.test(s)?n.text().then((function(e){return new Response(new Blob(["System.register([],function(e){return{execute:function(){var s=new CSSStyleSheet();s.replaceSync("+JSON.stringify(e)+');e("default",s)}}})'],{type:"application/javascript"}))})):o.test(s)?(WebAssembly.compileStreaming?WebAssembly.compileStreaming(n):n.arrayBuffer().then(WebAssembly.compile)).then((function(n){e.System.wasmModules||(e.System.wasmModules=Object.create(null)),e.System.wasmModules[t]=n;var r=[],i=[];return WebAssembly.Module.imports&&WebAssembly.Module.imports(n).forEach((function(e){var t=JSON.stringify(e.module);-1===r.indexOf(t)&&(r.push(t),i.push("function(m){i["+t+"]=m}"))})),new Response(new Blob(["System.register(["+r.join(",")+"],function(e){var i={};return{setters:["+i.join(",")+"],execute:function(){return WebAssembly.instantiate(System.wasmModules["+JSON.stringify(t)+"],i).then(function(m){e(m.exports)})}}})"],{type:"application/javascript"}))})):n}))}}("undefined"!=typeof self?self:global);var $="undefined"!=typeof Symbol&&Symbol.toStringTag;w.get=function(e){var t=this[m][e];if(t&&null===t.e&&!t.E)return t.er?null:t.n},w.set=function(e,t){var n;$&&"Module"===t[$]?n=t:(n=Object.assign(Object.create(null),t),$&&Object.defineProperty(n,$,{value:"Module"}));var r=Promise.resolve(n),i=this[m][e]||(this[m][e]={id:e,i:[],h:!1,d:[],e:null,er:void 0,E:void 0});return!i.e&&!i.E&&(Object.assign(i,{n:n,I:void 0,L:void 0,C:r}),n)},w.has=function(e){return!!this[m][e]},w.delete=function(e){var t=this[m],n=t[e];if(!n||n.p&&null!==n.p.e||n.E)return!1;var r=n.i;return n.d&&n.d.forEach((function(e){var t=e.i.indexOf(n);-1!==t&&e.i.splice(t,1)})),delete t[e],function(){var n=t[e];if(!n||!r||null!==n.e||n.E)return!1;r.forEach((function(e){n.i.push(e),e(n.n)})),r=null}};var k="undefined"!=typeof Symbol&&Symbol.iterator;w.entries=function(){var e,t,n=this,r=Object.keys(n[m]),i=0,o={next:function(){for(;void 0!==(t=r[i++])&&void 0===(e=n.get(t)););return{done:void 0===t,value:void 0!==t&&[t,e]}}};return o[k]=function(){return this},o},function(e){var t=e.System;s(t);var n,r=t.constructor.prototype,i=t.constructor,o=function(){i.call(this),s(this)};function s(e){e.registerRegistry=Object.create(null)}o.prototype=r,t.constructor=o;var u=r.register;r.register=function(e,t,r){if("string"!=typeof e)return u.apply(this,arguments);var i=[t,r];return this.registerRegistry[e]=i,n||(n=i,Promise.resolve().then((function(){n=null}))),u.apply(this,arguments)};var c=r.resolve;r.resolve=function(e,t){try{return c.call(this,e,t)}catch(t){if(e in this.registerRegistry)return e;throw t}};var a=r.instantiate;r.instantiate=function(e,t){var n=this.registerRegistry[e];return n?(this.registerRegistry[e]=null,n):a.call(this,e,t)};var f=r.getRegister;r.getRegister=function(){var e=f.call(this),t=n||e;return n=null,t}}("undefined"!=typeof self?self:global)}();
+(function () {
+  'use strict';
+
+  function errMsg(errCode, msg) {
+    return (msg || "") + " (SystemJS Error#" + errCode + " " + "https://git.io/JvFET#" + errCode + ")";
+  }
+
+  var hasSymbol = typeof Symbol !== 'undefined';
+  var hasSelf = typeof self !== 'undefined';
+  var hasDocument = typeof document !== 'undefined';
+
+  var envGlobal = hasSelf ? self : global;
+
+  var baseUrl;
+
+  if (hasDocument) {
+    var baseEl = document.querySelector('base[href]');
+    if (baseEl)
+      baseUrl = baseEl.href;
+  }
+
+  if (!baseUrl && typeof location !== 'undefined') {
+    baseUrl = location.href.split('#')[0].split('?')[0];
+    var lastSepIndex = baseUrl.lastIndexOf('/');
+    if (lastSepIndex !== -1)
+      baseUrl = baseUrl.slice(0, lastSepIndex + 1);
+  }
+
+  var backslashRegEx = /\\/g;
+  function resolveIfNotPlainOrUrl (relUrl, parentUrl) {
+    if (relUrl.indexOf('\\') !== -1)
+      relUrl = relUrl.replace(backslashRegEx, '/');
+    // protocol-relative
+    if (relUrl[0] === '/' && relUrl[1] === '/') {
+      return parentUrl.slice(0, parentUrl.indexOf(':') + 1) + relUrl;
+    }
+    // relative-url
+    else if (relUrl[0] === '.' && (relUrl[1] === '/' || relUrl[1] === '.' && (relUrl[2] === '/' || relUrl.length === 2 && (relUrl += '/')) ||
+        relUrl.length === 1  && (relUrl += '/')) ||
+        relUrl[0] === '/') {
+      var parentProtocol = parentUrl.slice(0, parentUrl.indexOf(':') + 1);
+      // Disabled, but these cases will give inconsistent results for deep backtracking
+      //if (parentUrl[parentProtocol.length] !== '/')
+      //  throw Error('Cannot resolve');
+      // read pathname from parent URL
+      // pathname taken to be part after leading "/"
+      var pathname;
+      if (parentUrl[parentProtocol.length + 1] === '/') {
+        // resolving to a :// so we need to read out the auth and host
+        if (parentProtocol !== 'file:') {
+          pathname = parentUrl.slice(parentProtocol.length + 2);
+          pathname = pathname.slice(pathname.indexOf('/') + 1);
+        }
+        else {
+          pathname = parentUrl.slice(8);
+        }
+      }
+      else {
+        // resolving to :/ so pathname is the /... part
+        pathname = parentUrl.slice(parentProtocol.length + (parentUrl[parentProtocol.length] === '/'));
+      }
+
+      if (relUrl[0] === '/')
+        return parentUrl.slice(0, parentUrl.length - pathname.length - 1) + relUrl;
+
+      // join together and split for removal of .. and . segments
+      // looping the string instead of anything fancy for perf reasons
+      // '../../../../../z' resolved to 'x/y' is just 'z'
+      var segmented = pathname.slice(0, pathname.lastIndexOf('/') + 1) + relUrl;
+
+      var output = [];
+      var segmentIndex = -1;
+      for (var i = 0; i < segmented.length; i++) {
+        // busy reading a segment - only terminate on '/'
+        if (segmentIndex !== -1) {
+          if (segmented[i] === '/') {
+            output.push(segmented.slice(segmentIndex, i + 1));
+            segmentIndex = -1;
+          }
+        }
+
+        // new segment - check if it is relative
+        else if (segmented[i] === '.') {
+          // ../ segment
+          if (segmented[i + 1] === '.' && (segmented[i + 2] === '/' || i + 2 === segmented.length)) {
+            output.pop();
+            i += 2;
+          }
+          // ./ segment
+          else if (segmented[i + 1] === '/' || i + 1 === segmented.length) {
+            i += 1;
+          }
+          else {
+            // the start of a new segment as below
+            segmentIndex = i;
+          }
+        }
+        // it is the start of a new segment
+        else {
+          segmentIndex = i;
+        }
+      }
+      // finish reading out the last segment
+      if (segmentIndex !== -1)
+        output.push(segmented.slice(segmentIndex));
+      return parentUrl.slice(0, parentUrl.length - pathname.length) + output.join('');
+    }
+  }
+
+  /*
+   * Import maps implementation
+   *
+   * To make lookups fast we pre-resolve the entire import map
+   * and then match based on backtracked hash lookups
+   *
+   */
+
+  function resolveUrl (relUrl, parentUrl) {
+    return resolveIfNotPlainOrUrl(relUrl, parentUrl) || (relUrl.indexOf(':') !== -1 ? relUrl : resolveIfNotPlainOrUrl('./' + relUrl, parentUrl));
+  }
+
+  function resolveAndComposePackages (packages, outPackages, baseUrl, parentMap, parentUrl) {
+    for (var p in packages) {
+      var resolvedLhs = resolveIfNotPlainOrUrl(p, baseUrl) || p;
+      var rhs = packages[p];
+      // package fallbacks not currently supported
+      if (typeof rhs !== 'string')
+        continue;
+      var mapped = resolveImportMap(parentMap, resolveIfNotPlainOrUrl(rhs, baseUrl) || rhs, parentUrl);
+      if (!mapped) {
+        targetWarning('W1', p, rhs, 'bare specifier did not resolve');
+      }
+      else
+        outPackages[resolvedLhs] = mapped;
+    }
+  }
+
+  function resolveAndComposeImportMap (json, baseUrl, outMap) {
+    if (json.imports)
+      resolveAndComposePackages(json.imports, outMap.imports, baseUrl, outMap, null);
+
+    var u;
+    for (u in json.scopes || {}) {
+      var resolvedScope = resolveUrl(u, baseUrl);
+      resolveAndComposePackages(json.scopes[u], outMap.scopes[resolvedScope] || (outMap.scopes[resolvedScope] = {}), baseUrl, outMap, resolvedScope);
+    }
+
+    for (u in json.depcache || {})
+      outMap.depcache[resolveUrl(u, baseUrl)] = json.depcache[u];
+    
+    for (u in json.integrity || {})
+      outMap.integrity[resolveUrl(u, baseUrl)] = json.integrity[u];
+  }
+
+  function getMatch (path, matchObj) {
+    if (matchObj[path])
+      return path;
+    var sepIndex = path.length;
+    do {
+      var segment = path.slice(0, sepIndex + 1);
+      if (segment in matchObj)
+        return segment;
+    } while ((sepIndex = path.lastIndexOf('/', sepIndex - 1)) !== -1)
+  }
+
+  function applyPackages (id, packages) {
+    var pkgName = getMatch(id, packages);
+    if (pkgName) {
+      var pkg = packages[pkgName];
+      if (pkg === null) return;
+      if (id.length > pkgName.length && pkg[pkg.length - 1] !== '/') {
+        targetWarning('W2', pkgName, pkg, "should have a trailing '/'");
+      }
+      else
+        return pkg + id.slice(pkgName.length);
+    }
+  }
+
+  function targetWarning (code, match, target, msg) {
+    console.warn(errMsg(code,  "Package target " + msg + ", resolving target '" + target + "' for " + match));
+  }
+
+  function resolveImportMap (importMap, resolvedOrPlain, parentUrl) {
+    var scopes = importMap.scopes;
+    var scopeUrl = parentUrl && getMatch(parentUrl, scopes);
+    while (scopeUrl) {
+      var packageResolution = applyPackages(resolvedOrPlain, scopes[scopeUrl]);
+      if (packageResolution)
+        return packageResolution;
+      scopeUrl = getMatch(scopeUrl.slice(0, scopeUrl.lastIndexOf('/')), scopes);
+    }
+    return applyPackages(resolvedOrPlain, importMap.imports) || resolvedOrPlain.indexOf(':') !== -1 && resolvedOrPlain;
+  }
+
+  /*
+   * SystemJS Core
+   * 
+   * Provides
+   * - System.import
+   * - System.register support for
+   *     live bindings, function hoisting through circular references,
+   *     reexports, dynamic import, import.meta.url, top-level await
+   * - System.getRegister to get the registration
+   * - Symbol.toStringTag support in Module objects
+   * - Hookable System.createContext to customize import.meta
+   * - System.onload(err, id, deps) handler for tracing / hot-reloading
+   * 
+   * Core comes with no System.prototype.resolve or
+   * System.prototype.instantiate implementations
+   */
+
+  var toStringTag = hasSymbol && Symbol.toStringTag;
+  var REGISTRY = hasSymbol ? Symbol() : '@';
+
+  function SystemJS () {
+    this[REGISTRY] = {};
+  }
+
+  var systemJSPrototype = SystemJS.prototype;
+
+  systemJSPrototype.import = function (id, parentUrl) {
+    var loader = this;
+    return Promise.resolve(loader.prepareImport())
+    .then(function() {
+      return loader.resolve(id, parentUrl);
+    })
+    .then(function (id) {
+      var load = getOrCreateLoad(loader, id);
+      return load.C || topLevelLoad(loader, load);
+    });
+  };
+
+  // Hookable createContext function -> allowing eg custom import meta
+  systemJSPrototype.createContext = function (parentId) {
+    var loader = this;
+    return {
+      url: parentId,
+      resolve: function (id, parentUrl) {
+        return Promise.resolve(loader.resolve(id, parentUrl || parentId));
+      }
+    };
+  };
+
+  // onLoad(err, id, deps) provided for tracing / hot-reloading
+  systemJSPrototype.onload = function () {};
+  function loadToId (load) {
+    return load.id;
+  }
+  function triggerOnload (loader, load, err, isErrSource) {
+    loader.onload(err, load.id, load.d && load.d.map(loadToId), !!isErrSource);
+    if (err)
+      throw err;
+  }
+
+  var lastRegister;
+  systemJSPrototype.register = function (deps, declare) {
+    lastRegister = [deps, declare];
+  };
+
+  /*
+   * getRegister provides the last anonymous System.register call
+   */
+  systemJSPrototype.getRegister = function () {
+    var _lastRegister = lastRegister;
+    lastRegister = undefined;
+    return _lastRegister;
+  };
+
+  function getOrCreateLoad (loader, id, firstParentUrl) {
+    var load = loader[REGISTRY][id];
+    if (load)
+      return load;
+
+    var importerSetters = [];
+    var ns = Object.create(null);
+    if (toStringTag)
+      Object.defineProperty(ns, toStringTag, { value: 'Module' });
+    
+    var instantiatePromise = Promise.resolve()
+    .then(function () {
+      return loader.instantiate(id, firstParentUrl);
+    })
+    .then(function (registration) {
+      if (!registration)
+        throw Error(errMsg(2,  'Module ' + id + ' did not instantiate'));
+      function _export (name, value) {
+        // note if we have hoisted exports (including reexports)
+        load.h = true;
+        var changed = false;
+        if (typeof name === 'string') {
+          if (!(name in ns) || ns[name] !== value) {
+            ns[name] = value;
+            changed = true;
+          }
+        }
+        else {
+          for (var p in name) {
+            var value = name[p];
+            if (!(p in ns) || ns[p] !== value) {
+              ns[p] = value;
+              changed = true;
+            }
+          }
+
+          if (name.__esModule) {
+            ns.__esModule = name.__esModule;
+          }
+        }
+        if (changed)
+          for (var i = 0; i < importerSetters.length; i++) {
+            var setter = importerSetters[i];
+            if (setter) setter(ns);
+          }
+        return value;
+      }
+      var declared = registration[1](_export, registration[1].length === 2 ? {
+        import: function (importId) {
+          return loader.import(importId, id);
+        },
+        meta: loader.createContext(id)
+      } : undefined);
+      load.e = declared.execute || function () {};
+      return [registration[0], declared.setters || []];
+    }, function (err) {
+      load.e = null;
+      load.er = err;
+      triggerOnload(loader, load, err, true);
+      throw err;
+    });
+
+    var linkPromise = instantiatePromise
+    .then(function (instantiation) {
+      return Promise.all(instantiation[0].map(function (dep, i) {
+        var setter = instantiation[1][i];
+        return Promise.resolve(loader.resolve(dep, id))
+        .then(function (depId) {
+          var depLoad = getOrCreateLoad(loader, depId, id);
+          // depLoad.I may be undefined for already-evaluated
+          return Promise.resolve(depLoad.I)
+          .then(function () {
+            if (setter) {
+              depLoad.i.push(setter);
+              // only run early setters when there are hoisted exports of that module
+              // the timing works here as pending hoisted export calls will trigger through importerSetters
+              if (depLoad.h || !depLoad.I)
+                setter(depLoad.n);
+            }
+            return depLoad;
+          });
+        });
+      }))
+      .then(function (depLoads) {
+        load.d = depLoads;
+      });
+    });
+
+    // Capital letter = a promise function
+    return load = loader[REGISTRY][id] = {
+      id: id,
+      // importerSetters, the setters functions registered to this dependency
+      // we retain this to add more later
+      i: importerSetters,
+      // module namespace object
+      n: ns,
+
+      // instantiate
+      I: instantiatePromise,
+      // link
+      L: linkPromise,
+      // whether it has hoisted exports
+      h: false,
+
+      // On instantiate completion we have populated:
+      // dependency load records
+      d: undefined,
+      // execution function
+      e: undefined,
+
+      // On execution we have populated:
+      // the execution error if any
+      er: undefined,
+      // in the case of TLA, the execution promise
+      E: undefined,
+
+      // On execution, L, I, E cleared
+
+      // Promise for top-level completion
+      C: undefined,
+
+      // parent instantiator / executor
+      p: undefined
+    };
+  }
+
+  function instantiateAll (loader, load, parent, loaded) {
+    if (!loaded[load.id]) {
+      loaded[load.id] = true;
+      // load.L may be undefined for already-instantiated
+      return Promise.resolve(load.L)
+      .then(function () {
+        if (!load.p || load.p.e === null)
+          load.p = parent;
+        return Promise.all(load.d.map(function (dep) {
+          return instantiateAll(loader, dep, parent, loaded);
+        }));
+      })
+      .catch(function (err) {
+        if (load.er)
+          throw err;
+        load.e = null;
+        triggerOnload(loader, load, err, false);
+        throw err;
+      });
+    }
+  }
+
+  function topLevelLoad (loader, load) {
+    return load.C = instantiateAll(loader, load, load, {})
+    .then(function () {
+      return postOrderExec(loader, load, {});
+    })
+    .then(function () {
+      return load.n;
+    });
+  }
+
+  // the closest we can get to call(undefined)
+  var nullContext = Object.freeze(Object.create(null));
+
+  // returns a promise if and only if a top-level await subgraph
+  // throws on sync errors
+  function postOrderExec (loader, load, seen) {
+    if (seen[load.id])
+      return;
+    seen[load.id] = true;
+
+    if (!load.e) {
+      if (load.er)
+        throw load.er;
+      if (load.E)
+        return load.E;
+      return;
+    }
+
+    // deps execute first, unless circular
+    var depLoadPromises;
+    load.d.forEach(function (depLoad) {
+      try {
+        var depLoadPromise = postOrderExec(loader, depLoad, seen);
+        if (depLoadPromise) 
+          (depLoadPromises = depLoadPromises || []).push(depLoadPromise);
+      }
+      catch (err) {
+        load.e = null;
+        load.er = err;
+        triggerOnload(loader, load, err, false);
+        throw err;
+      }
+    });
+    if (depLoadPromises)
+      return Promise.all(depLoadPromises).then(doExec);
+
+    return doExec();
+
+    function doExec () {
+      try {
+        var execPromise = load.e.call(nullContext);
+        if (execPromise) {
+          execPromise = execPromise.then(function () {
+            load.C = load.n;
+            load.E = null; // indicates completion
+            if (!false) triggerOnload(loader, load, null, true);
+          }, function (err) {
+            load.er = err;
+            load.E = null;
+            if (!false) triggerOnload(loader, load, err, true);
+            throw err;
+          });
+          return load.E = execPromise;
+        }
+        // (should be a promise, but a minify optimization to leave out Promise.resolve)
+        load.C = load.n;
+        load.L = load.I = undefined;
+      }
+      catch (err) {
+        load.er = err;
+        throw err;
+      }
+      finally {
+        load.e = null;
+        triggerOnload(loader, load, load.er, true);
+      }
+    }
+  }
+
+  envGlobal.System = new SystemJS();
+
+  /*
+   * SystemJS browser attachments for script and import map processing
+   */
+
+  var importMapPromise = Promise.resolve();
+  var importMap = { imports: {}, scopes: {}, depcache: {}, integrity: {} };
+
+  // Scripts are processed immediately, on the first System.import, and on DOMReady.
+  // Import map scripts are processed only once (by being marked) and in order for each phase.
+  // This is to avoid using DOM mutation observers in core, although that would be an alternative.
+  var processFirst = hasDocument;
+  systemJSPrototype.prepareImport = function (doProcessScripts) {
+    if (processFirst || doProcessScripts) {
+      processScripts();
+      processFirst = false;
+    }
+    return importMapPromise;
+  };
+  if (hasDocument) {
+    processScripts();
+    window.addEventListener('DOMContentLoaded', processScripts);
+  }
+
+  function processScripts () {
+    [].forEach.call(document.querySelectorAll('script'), function (script) {
+      if (script.sp) // sp marker = systemjs processed
+        return;
+      // TODO: deprecate systemjs-module in next major now that we have auto import
+      if (script.type === 'systemjs-module') {
+        script.sp = true;
+        if (!script.src)
+          return;
+        System.import(script.src.slice(0, 7) === 'import:' ? script.src.slice(7) : resolveUrl(script.src, baseUrl)).catch(function (e) {
+          // if there is a script load error, dispatch an "error" event
+          // on the script tag.
+          if (e.message.indexOf('https://git.io/JvFET#3') > -1) {
+            var event = document.createEvent('Event');
+            event.initEvent('error', false, false);
+            script.dispatchEvent(event);
+          }
+          return Promise.reject(e);
+        });
+      }
+      else if (script.type === 'systemjs-importmap') {
+        script.sp = true;
+        var fetchPromise = script.src ? fetch(script.src, { integrity: script.integrity }).then(function (res) {
+          if (!res.ok)
+            throw Error( 'Invalid status code: ' + res.status);
+          return res.text();
+        }).catch(function (err) {
+          err.message = errMsg('W4',  'Error fetching systemjs-import map ' + script.src) + '\n' + err.message;
+          console.warn(err);
+          return '{}';
+        }) : script.innerHTML;
+        importMapPromise = importMapPromise.then(function () {
+          return fetchPromise;
+        }).then(function (text) {
+          extendImportMap(importMap, text, script.src || baseUrl);
+        });
+      }
+    });
+  }
+
+  function extendImportMap (importMap, newMapText, newMapUrl) {
+    var newMap = {};
+    try {
+      newMap = JSON.parse(newMapText);
+    } catch (err) {
+      console.warn(Error(( errMsg('W5', "systemjs-importmap contains invalid JSON") + '\n\n' + newMapText + '\n' )));
+    }
+    resolveAndComposeImportMap(newMap, newMapUrl, importMap);
+  }
+
+  /*
+   * Script instantiation loading
+   */
+
+  if (hasDocument) {
+    window.addEventListener('error', function (evt) {
+      lastWindowErrorUrl = evt.filename;
+      lastWindowError = evt.error;
+    });
+    var baseOrigin = location.origin;
+  }
+
+  systemJSPrototype.createScript = function (url) {
+    var script = document.createElement('script');
+    script.async = true;
+    // Only add cross origin for actual cross origin
+    // this is because Safari triggers for all
+    // - https://bugs.webkit.org/show_bug.cgi?id=171566
+    if (url.indexOf(baseOrigin + '/'))
+      script.crossOrigin = 'anonymous';
+    var integrity = importMap.integrity[url];
+    if (integrity)
+      script.integrity = integrity;
+    script.src = url;
+    return script;
+  };
+
+  // Auto imports -> script tags can be inlined directly for load phase
+  var lastAutoImportUrl, lastAutoImportDeps, lastAutoImportTimeout;
+  var autoImportCandidates = {};
+  var systemRegister = systemJSPrototype.register;
+  systemJSPrototype.register = function (deps, declare) {
+    if (hasDocument && document.readyState === 'loading' && typeof deps !== 'string') {
+      var scripts = document.querySelectorAll('script[src]');
+      var lastScript = scripts[scripts.length - 1];
+      if (lastScript) {
+        lastAutoImportUrl = lastScript.src;
+        lastAutoImportDeps = deps;
+        // if this is already a System load, then the instantiate has already begun
+        // so this re-import has no consequence
+        var loader = this;
+        lastAutoImportTimeout = setTimeout(function () {
+          autoImportCandidates[lastScript.src] = [deps, declare];
+          loader.import(lastScript.src);
+        });
+      }
+    }
+    else {
+      lastAutoImportDeps = undefined;
+    }
+    return systemRegister.call(this, deps, declare);
+  };
+
+  var lastWindowErrorUrl, lastWindowError;
+  systemJSPrototype.instantiate = function (url, firstParentUrl) {
+    var autoImportRegistration = autoImportCandidates[url];
+    if (autoImportRegistration) {
+      delete autoImportCandidates[url];
+      return autoImportRegistration;
+    }
+    var loader = this;
+    return new Promise(function (resolve, reject) {
+      var script = systemJSPrototype.createScript(url);
+      script.addEventListener('error', function () {
+        reject(Error(errMsg(3,  'Error loading ' + url + (firstParentUrl ? ' from ' + firstParentUrl : ''))));
+      });
+      script.addEventListener('load', function () {
+        document.head.removeChild(script);
+        // Note that if an error occurs that isn't caught by this if statement,
+        // that getRegister will return null and a "did not instantiate" error will be thrown.
+        if (lastWindowErrorUrl === url) {
+          reject(lastWindowError);
+        }
+        else {
+          var register = loader.getRegister();
+          // Clear any auto import registration for dynamic import scripts during load
+          if (register && register[0] === lastAutoImportDeps)
+            clearTimeout(lastAutoImportTimeout);
+          resolve(register);
+        }
+      });
+      document.head.appendChild(script);
+    });
+  };
+
+  /*
+   * Fetch loader, sets up shouldFetch and fetch hooks
+   */
+  systemJSPrototype.shouldFetch = function () {
+    return false;
+  };
+  if (typeof fetch !== 'undefined')
+    systemJSPrototype.fetch = fetch;
+
+  var instantiate = systemJSPrototype.instantiate;
+  var jsContentTypeRegEx = /^(text|application)\/(x-)?javascript(;|$)/;
+  systemJSPrototype.instantiate = function (url, parent) {
+    var loader = this;
+    if (!this.shouldFetch(url))
+      return instantiate.apply(this, arguments);
+    return this.fetch(url, {
+      credentials: 'same-origin',
+      integrity: importMap.integrity[url]
+    })
+    .then(function (res) {
+      if (!res.ok)
+        throw Error(errMsg(7,  res.status + ' ' + res.statusText + ', loading ' + url + (parent ? ' from ' + parent : '')));
+      var contentType = res.headers.get('content-type');
+      if (!contentType || !jsContentTypeRegEx.test(contentType))
+        throw Error(errMsg(4,  'Unknown Content-Type "' + contentType + '", loading ' + url + (parent ? ' from ' + parent : '')));
+      return res.text().then(function (source) {
+        if (source.indexOf('//# sourceURL=') < 0)
+          source += '\n//# sourceURL=' + url;
+        (0, eval)(source);
+        return loader.getRegister();
+      });
+    });
+  };
+
+  systemJSPrototype.resolve = function (id, parentUrl) {
+    parentUrl = parentUrl || !true  || baseUrl;
+    return resolveImportMap(( importMap), resolveIfNotPlainOrUrl(id, parentUrl) || id, parentUrl) || throwUnresolved(id, parentUrl);
+  };
+
+  function throwUnresolved (id, parentUrl) {
+    throw Error(errMsg(8,  "Unable to resolve bare specifier '" + id + (parentUrl ? "' from " + parentUrl : "'")));
+  }
+
+  var systemInstantiate = systemJSPrototype.instantiate;
+  systemJSPrototype.instantiate = function (url, firstParentUrl) {
+    var preloads = ( importMap).depcache[url];
+    if (preloads) {
+      for (var i = 0; i < preloads.length; i++)
+        getOrCreateLoad(this, this.resolve(preloads[i], url), url);
+    }
+    return systemInstantiate.call(this, url, firstParentUrl);
+  };
+
+  /*
+   * Supports loading System.register in workers
+   */
+
+  if (hasSelf && typeof importScripts === 'function')
+    systemJSPrototype.instantiate = function (url) {
+      var loader = this;
+      return Promise.resolve().then(function () {
+        importScripts(url);
+        return loader.getRegister();
+      });
+    };
+
+  /*
+   * SystemJS global script loading support
+   * Extra for the s.js build only
+   * (Included by default in system.js build)
+   */
+  (function (global) {
+    var systemJSPrototype = global.System.constructor.prototype;
+
+    // safari unpredictably lists some new globals first or second in object order
+    var firstGlobalProp, secondGlobalProp, lastGlobalProp;
+    function getGlobalProp (useFirstGlobalProp) {
+      var cnt = 0;
+      var foundLastProp, result;
+      for (var p in global) {
+        // do not check frames cause it could be removed during import
+        if (shouldSkipProperty(p))
+          continue;
+        if (cnt === 0 && p !== firstGlobalProp || cnt === 1 && p !== secondGlobalProp)
+          return p;
+        if (foundLastProp) {
+          lastGlobalProp = p;
+          result = useFirstGlobalProp && result || p;
+        }
+        else {
+          foundLastProp = p === lastGlobalProp;
+        }
+        cnt++;
+      }
+      return result;
+    }
+
+    function noteGlobalProps () {
+      // alternatively Object.keys(global).pop()
+      // but this may be faster (pending benchmarks)
+      firstGlobalProp = secondGlobalProp = undefined;
+      for (var p in global) {
+        // do not check frames cause it could be removed during import
+        if (shouldSkipProperty(p))
+          continue;
+        if (!firstGlobalProp)
+          firstGlobalProp = p;
+        else if (!secondGlobalProp)
+          secondGlobalProp = p;
+        lastGlobalProp = p;
+      }
+      return lastGlobalProp;
+    }
+
+    var impt = systemJSPrototype.import;
+    systemJSPrototype.import = function (id, parentUrl) {
+      noteGlobalProps();
+      return impt.call(this, id, parentUrl);
+    };
+
+    var emptyInstantiation = [[], function () { return {} }];
+
+    var getRegister = systemJSPrototype.getRegister;
+    systemJSPrototype.getRegister = function () {
+      var lastRegister = getRegister.call(this);
+      if (lastRegister)
+        return lastRegister;
+
+      // no registration -> attempt a global detection as difference from snapshot
+      // when multiple globals, we take the global value to be the last defined new global object property
+      // for performance, this will not support multi-version / global collisions as previous SystemJS versions did
+      // note in Edge, deleting and re-adding a global does not change its ordering
+      var globalProp = getGlobalProp(this.firstGlobalProp);
+      if (!globalProp)
+        return emptyInstantiation;
+
+      var globalExport;
+      try {
+        globalExport = global[globalProp];
+      }
+      catch (e) {
+        return emptyInstantiation;
+      }
+
+      return [[], function (_export) {
+        return {
+          execute: function () {
+            _export(globalExport);
+            _export({ default: globalExport, __useDefault: true });
+          }
+        };
+      }];
+    };
+
+    var isIE11 = typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Trident') !== -1;
+
+    function shouldSkipProperty(p) {
+      return !global.hasOwnProperty(p)
+        || !isNaN(p) && p < global.length
+        || isIE11 && global[p] && typeof window !== 'undefined' && global[p].parent === window;
+    }
+  })(typeof self !== 'undefined' ? self : global);
+
+  /*
+   * Loads JSON, CSS, Wasm module types based on file extension
+   * filters and content type verifications
+   */
+  (function(global) {
+    var systemJSPrototype = global.System.constructor.prototype;
+
+    var moduleTypesRegEx = /^[^#?]+\.(css|html|json|wasm)([?#].*)?$/;
+    systemJSPrototype.shouldFetch = function (url) {
+      return moduleTypesRegEx.test(url);
+    };
+
+    var jsonContentType = /^application\/json(;|$)/;
+    var cssContentType = /^text\/css(;|$)/;
+    var wasmContentType = /^application\/wasm(;|$)/;
+
+    var fetch = systemJSPrototype.fetch;
+    systemJSPrototype.fetch = function (url, options) {
+      return fetch(url, options)
+      .then(function (res) {
+        if (!res.ok)
+          return res;
+        var contentType = res.headers.get('content-type');
+        if (jsonContentType.test(contentType))
+          return res.json()
+          .then(function (json) {
+            return new Response(new Blob([
+              'System.register([],function(e){return{execute:function(){e("default",' + JSON.stringify(json) + ')}}})'
+            ], {
+              type: 'application/javascript'
+            }));
+          });
+        if (cssContentType.test(contentType))
+          return res.text()
+          .then(function (source) {
+            return new Response(new Blob([
+              'System.register([],function(e){return{execute:function(){var s=new CSSStyleSheet();s.replaceSync(' + JSON.stringify(source) + ');e("default",s)}}})'
+            ], {
+              type: 'application/javascript'
+            }));
+          });
+        if (wasmContentType.test(contentType))
+          return (WebAssembly.compileStreaming ? WebAssembly.compileStreaming(res) : res.arrayBuffer().then(WebAssembly.compile))
+          .then(function (module) {
+            if (!global.System.wasmModules)
+              global.System.wasmModules = Object.create(null);
+            global.System.wasmModules[url] = module;
+            // we can only set imports if supported (eg early Safari doesnt support)
+            var deps = [];
+            var setterSources = [];
+            if (WebAssembly.Module.imports)
+              WebAssembly.Module.imports(module).forEach(function (impt) {
+                var key = JSON.stringify(impt.module);
+                if (deps.indexOf(key) === -1) {
+                  deps.push(key);
+                  setterSources.push('function(m){i[' + key + ']=m}');
+                }
+              });
+            return new Response(new Blob([
+              'System.register([' + deps.join(',') + '],function(e){var i={};return{setters:[' + setterSources.join(',') +
+              '],execute:function(){return WebAssembly.instantiate(System.wasmModules[' + JSON.stringify(url) +
+              '],i).then(function(m){e(m.exports)})}}})'
+            ], {
+              type: 'application/javascript'
+            }));
+          });
+        return res;
+      });
+    };
+  })(typeof self !== 'undefined' ? self : global);
+
+  var toStringTag$1 = typeof Symbol !== 'undefined' && Symbol.toStringTag;
+
+  systemJSPrototype.get = function (id) {
+    var load = this[REGISTRY][id];
+    if (load && load.e === null && !load.E) {
+      if (load.er)
+        return null;
+      return load.n;
+    }
+  };
+
+  systemJSPrototype.set = function (id, module) {
+    {
+      try {
+        // No page-relative URLs allowed
+        new URL(id);
+      } catch (err) {
+        console.warn(Error(errMsg('W3', '"' + id + '" is not a valid URL to set in the module registry')));
+      }
+    }
+    var ns;
+    if (toStringTag$1 && module[toStringTag$1] === 'Module') {
+      ns = module;
+    }
+    else {
+      ns = Object.assign(Object.create(null), module);
+      if (toStringTag$1)
+        Object.defineProperty(ns, toStringTag$1, { value: 'Module' });
+    }
+
+    var done = Promise.resolve(ns);
+
+    var load = this[REGISTRY][id] || (this[REGISTRY][id] = {
+      id: id,
+      i: [],
+      h: false,
+      d: [],
+      e: null,
+      er: undefined,
+      E: undefined
+    });
+
+    if (load.e || load.E)
+      return false;
+    
+    Object.assign(load, {
+      n: ns,
+      I: undefined,
+      L: undefined,
+      C: done
+    });
+    return ns;
+  };
+
+  systemJSPrototype.has = function (id) {
+    var load = this[REGISTRY][id];
+    return !!load;
+  };
+
+  // Delete function provided for hot-reloading use cases
+  systemJSPrototype.delete = function (id) {
+    var registry = this[REGISTRY];
+    var load = registry[id];
+    // in future we can support load.E case by failing load first
+    // but that will require TLA callbacks to be implemented
+    if (!load || (load.p && load.p.e !== null) || load.E)
+      return false;
+
+    var importerSetters = load.i;
+    // remove from importerSetters
+    // (release for gc)
+    if (load.d)
+      load.d.forEach(function (depLoad) {
+        var importerIndex = depLoad.i.indexOf(load);
+        if (importerIndex !== -1)
+          depLoad.i.splice(importerIndex, 1);
+      });
+    delete registry[id];
+    return function () {
+      var load = registry[id];
+      if (!load || !importerSetters || load.e !== null || load.E)
+        return false;
+      // add back the old setters
+      importerSetters.forEach(function (setter) {
+        load.i.push(setter);
+        setter(load.n);
+      });
+      importerSetters = null;
+    };
+  };
+
+  var iterator = typeof Symbol !== 'undefined' && Symbol.iterator;
+
+  systemJSPrototype.entries = function () {
+    var loader = this, keys = Object.keys(loader[REGISTRY]);
+    var index = 0, ns, key;
+    var result = {
+      next: function () {
+        while (
+          (key = keys[index++]) !== undefined && 
+          (ns = loader.get(key)) === undefined
+        );
+        return {
+          done: key === undefined,
+          value: key !== undefined && [key, ns]
+        };
+      }
+    };
+
+    result[iterator] = function() { return this };
+
+    return result;
+  };
+
+  /*
+   * SystemJS named register extension
+   * Supports System.register('name', [..deps..], function (_export, _context) { ... })
+   * 
+   * Names are written to the registry as-is
+   * System.register('x', ...) can be imported as System.import('x')
+   */
+  (function (global) {
+    var System = global.System;
+    setRegisterRegistry(System);
+    var systemJSPrototype = System.constructor.prototype;
+    var constructor = System.constructor;
+    var SystemJS = function () {
+      constructor.call(this);
+      setRegisterRegistry(this);
+    };
+    SystemJS.prototype = systemJSPrototype;
+    System.constructor = SystemJS;
+
+    var firstNamedDefine;
+
+    function setRegisterRegistry(systemInstance) {
+      systemInstance.registerRegistry = Object.create(null);
+    }
+
+    var register = systemJSPrototype.register;
+    systemJSPrototype.register = function (name, deps, declare) {
+      if (typeof name !== 'string')
+        return register.apply(this, arguments);
+      var define = [deps, declare];
+      this.registerRegistry[name] = define;
+      if (!firstNamedDefine) {
+        firstNamedDefine = define;
+        Promise.resolve().then(function () {
+          firstNamedDefine = null;
+        });
+      }
+      return register.apply(this, arguments);
+    };
+
+    var resolve = systemJSPrototype.resolve;
+    systemJSPrototype.resolve = function (id, parentURL) {
+      try {
+        // Prefer import map (or other existing) resolution over the registerRegistry
+        return resolve.call(this, id, parentURL);
+      } catch (err) {
+        if (id in this.registerRegistry) {
+          return id;
+        }
+        throw err;
+      }
+    };
+
+    var instantiate = systemJSPrototype.instantiate;
+    systemJSPrototype.instantiate = function (url, firstParentUrl) {
+      var result = this.registerRegistry[url];
+      if (result) {
+        this.registerRegistry[url] = null;
+        return result;
+      } else {
+        return instantiate.call(this, url, firstParentUrl);
+      }
+    };
+
+    var getRegister = systemJSPrototype.getRegister;
+    systemJSPrototype.getRegister = function () {
+      // Calling getRegister() because other extras need to know it was called so they can perform side effects
+      var register = getRegister.call(this);
+
+      var result = firstNamedDefine || register;
+      firstNamedDefine = null;
+      return result;
+    };
+  })(typeof self !== 'undefined' ? self : global);
+
+}());

@@ -1,6 +1,83 @@
-System.register("chunks:///_virtual/Button.ts",["./_rollupPluginModLoBabelHelpers.js","cc"],(function(t){"use strict";var e,n,r,i,o,l,a,c,u,s;return{setters:[function(t){e=t.applyDecoratedDescriptor,n=t.inheritsLoose,r=t.initializerDefineProperty,i=t.assertThisInitialized},function(t){o=t.cclegacy,l=t._decorator,a=t.Node,c=t.assert,u=t.Label,s=t.Component}],execute:function(){var p,f,b,h,y;o._RF.push({},"125f2xSB3VIyoS3qzpBuMct","Button",void 0);var d=l.ccclass,g=l.property;t("Button",(p=d("Button"),f=g(a),p((y=e((h=function(t){function e(){for(var e,n=arguments.length,o=new Array(n),l=0;l<n;l++)o[l]=arguments[l];return e=t.call.apply(t,[this].concat(o))||this,r(i(e),"label",y,i(e)),e}return n(e,t),e.prototype.onClick=function(){if(c(null!=this.label),this.label){var t=this.label.getComponent(u);t&&(t.string="Clicked")}},e}(s)).prototype,"label",[f],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),b=h))||b));o._RF.pop()}}}));
+System.register("chunks:///_virtual/Button.ts", ['./_rollupPluginModLoBabelHelpers.js', 'cc'], function (exports) {
+  'use strict';
 
-System.register("chunks:///_virtual/main",["./Button.ts"],(function(){"use strict";return{setters:[null],execute:function(){}}}));
+  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, cclegacy, _decorator, Node, assert, Label, Component;
+
+  return {
+    setters: [function (module) {
+      _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
+      _inheritsLoose = module.inheritsLoose;
+      _initializerDefineProperty = module.initializerDefineProperty;
+      _assertThisInitialized = module.assertThisInitialized;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Node = module.Node;
+      assert = module.assert;
+      Label = module.Label;
+      Component = module.Component;
+    }],
+    execute: function () {
+      var _dec, _dec2, _class, _class2, _descriptor, _temp;
+
+      cclegacy._RF.push({}, "125f2xSB3VIyoS3qzpBuMct", "Button", undefined);
+
+      var ccclass = _decorator.ccclass,
+          property = _decorator.property;
+      var Button = exports('Button', (_dec = ccclass("Button"), _dec2 = property(Node), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_Component) {
+        _inheritsLoose(Button, _Component);
+
+        function Button() {
+          var _this;
+
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+
+          _initializerDefineProperty(_assertThisInitialized(_this), "label", _descriptor, _assertThisInitialized(_this));
+
+          return _this;
+        }
+
+        var _proto = Button.prototype;
+
+        _proto.onClick = function onClick() {
+          assert(this.label != null);
+
+          if (this.label) {
+            var component = this.label.getComponent(Label);
+
+            if (component) {
+              component.string = "Clicked";
+            }
+          }
+        };
+
+        return Button;
+      }(Component), _temp), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "label", [_dec2], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _class2)) || _class));
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/main", ['./Button.ts'], function () {
+  'use strict';
+
+  return {
+    setters: [null],
+    execute: function () {}
+  };
+});
 
 (function(r) {
   r('virtual:///prerequisite-imports/main', 'chunks:///_virtual/main'); 
