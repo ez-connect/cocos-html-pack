@@ -39,7 +39,9 @@
 
   <link rel="icon" href="favicon.ico" />
 
-  ${style}
+  <style>
+    ${/style.css}
+  </style>
 </head>
 
 <body>
@@ -50,26 +52,19 @@
     </div>
   </div>
 
-  <!-- Compress -->
-  ${compressed}
+  <script>
+    // assets
+    ${assets}
 
-  <!-- assets -->
-  ${assets}
+    // Polyfills bundle
+    ${/src/polyfills.bundle.js}
 
-  <!-- Polyfills bundle -->
-  ${/src/polyfills.bundle.js}
+    // SystemJS support
+    ${/src/system.bundle.js}
 
-  <!-- SystemJS support -->
-  ${/src/system.bundle.js}
-
-  <!-- Import map -->
-  <script type="systemjs-importmap">
-    ${/src/import-map.json}
+    // Engine JS
+    ${/cocos-js/cc.js}
   </script>
-
-  <!-- Engine JS-->
-  ${/cocos-js/cc.js}
-
 </body>
 
 </html>
