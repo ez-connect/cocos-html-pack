@@ -96,7 +96,7 @@ System.register([], function (_export, _context) {
       var server = '';
       var settings = 'src/settings.json';
       return new Promise(function (resolve, reject) {
-        if(window.assets && window.settings) {
+        if(window.settings) {
           window._CCSettings = window.settings;
           window._CCSettings.server = server;
         } else if (typeof fsUtils !== 'undefined' && !settings.startsWith('http')) {
