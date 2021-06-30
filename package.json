@@ -23,7 +23,7 @@
     "pretest": "yarn build",
     "test": "jest",
     "lint": "eslint ./src/**/*.ts --fix",
-    "build:clean": "node -e \"const fs = require('fs'); fs.rmdirSync('./lib', { recursive: true });\"",
+    "build:clean": "rm -rf ./lib",
     "build": "yarn build:clean && tsc --outDir lib",
     "prepublish": "yarn build"
   },

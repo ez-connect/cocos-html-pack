@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { MapString, Resource } from './types';
+import { MapString } from './types';
 import { Util } from './Util';
 
 // Template
@@ -18,26 +18,6 @@ const kBinaryFormat: MapString = {
   // Because of missing `</dict></plist>` after injected
   '.plist': '',
 };
-
-// index.html
-const kPathHTML = 'index.html';
-// style-desktop.css
-const kPathStyleDesktop = 'style-desktop.css';
-// style-mobile.css
-const kPathStyleMobile = 'style-mobile.css';
-// assets
-const kPathAssets = 'assets';
-// settings.json
-const kPathSetting = path.join('src', 'settings.js');
-// cocos2d-js-min.js
-const kPathEngineJS = 'cocos2d-js-min.js';
-// assets/internal/index.js
-const kPathInternalJS = path.join(kPathAssets, 'internal', 'index.js');
-// main.js
-const kPathMainJS = 'main.js';
-// assets/main/index.js
-const kPathJS = path.join(kPathAssets, 'main', 'index.js');
-
 export class Reader {
   _platform: Platform;
 
@@ -58,39 +38,22 @@ export class Reader {
     return data.toString('utf-8');
   }
 
-  readAll(dir: string): Resource {
+  readAll(dir: string): MapString {
     // Get all scripts + assets files
     const filenames: string[] = [];
-    const assetsDir = path.join(dir, kPathAssets);
-    Util.walk(filenames, assetsDir);
+    Util.walk(filenames, dir);
 
-    const assets: MapString = {};
+    const data: MapString = {};
     for (const filename of filenames) {
-      const ext = path.extname(filename);
-      if (ext === '.js') {
-        continue;
-      }
-
-      let key = filename.replace(`${assetsDir}${path.sep}`, '');
+      // console.log(filename);
+      let key = filename.replace(dir, '');
       if (path.sep === '\\') {
         key = key.replace(/\\/g, '/'); // replaceAll not supports
       }
       const value = this.read(filename);
-      assets[key] = value;
+      data[key] = value;
     }
 
-    return {
-      html: this.read(path.join(dir, kPathHTML)),
-      style:
-        this._platform === 'web-desktop'
-          ? this.read(path.join(dir, kPathStyleDesktop))
-          : this.read(path.join(dir, kPathStyleMobile)),
-      assets,
-      settings: this.read(path.join(dir, kPathSetting)),
-      engineJS: this.read(path.join(dir, kPathEngineJS)),
-      internalJS: this.read(path.join(dir, kPathInternalJS)),
-      mainJS: this.read(path.join(dir, kPathMainJS)),
-      js: this.read(path.join(dir, kPathJS)),
-    };
+    return data;
   }
 }

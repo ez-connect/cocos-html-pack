@@ -5,7 +5,7 @@ const { Util } = require('../../lib');
 test('walk', () => {
   const res = [];
   Util.walk(res, 'src/__tests__/example', '.png');
-  expect(res.length).toEqual(2);
+  expect(res.length).toEqual(3);
 })
 
 // test('compress image', () => {

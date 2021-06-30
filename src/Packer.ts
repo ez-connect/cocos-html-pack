@@ -1,27 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 import pako from 'pako';
-import { Resource } from './types';
+import { MapString } from './types';
 
-// HTML placeholder
-enum PlaceHolder {
-  Title = '${title}', // html title
-  Style = '${style}', // html style
-  Orientation = '${orientation}', // html orientation
-  Compressed = '${compressed}',
-  Assets = '${assets}', // all assets
-  Settings = '${settings.js}',
-  EngineJS = '${cocos2d-js-min.js}',
-  InternaJS = '${assets/internal/index.js}',
-  // ResouceJS = '${resources/index.js}', // the same internal js
-  MainJS = '${main.js}',
-  ProjectJS = '${assets/main/index.js}', // assets/scripts bundle
+// Asset keys
+enum DataKeys {
+  Html = '/index.html',
+  Style = '/style.css',
+  Polyfills = '/polyfills.bundle.js',
+  SystemJS = '/src/system.bundle.js',
+  ImportMapJS = '/src/import-map.json',
+  EngineJS = '/cocos-js/cc.js',
 }
 
-export class Packer {
-  _data: Resource;
+const kPathAssets = '/assets';
 
-  constructor(value: Resource) {
+export class Packer {
+  _data: MapString;
+
+  constructor(value: MapString) {
     this._data = value;
   }
 
@@ -30,56 +27,88 @@ export class Packer {
     orientation = 'portrait',
     useCompress?: boolean,
   ): string {
-    let { html } = this._data;
-    html = html.replace(PlaceHolder.Title, title);
-    const regex = new RegExp(`\\${PlaceHolder.Orientation}`, 'g');
+    let html = this._data[DataKeys.Html];
+    html = html.replace('${title}', title);
+    const regex = new RegExp('${orientation}', 'g');
     html = html.replace(regex, orientation); // replaceAll not supports
 
-    const { style, settings, internalJS, mainJS } = this._data;
-    let { assets, engineJS, js } = this._data;
-
     // Style
-    let res = html.replace(PlaceHolder.Style, this._getStyleTag(style));
-
-    // Compressed
-    let compressed = '';
-    if (useCompress) {
-      // Compress assets, engineJS and js
-      const uncompressed = JSON.stringify({ assets, engineJS, js });
-      // Remove uncompress data to remove placeholder
-      assets = {};
-      engineJS = '';
-      js = '';
-      // Compress to base64
-      compressed = `window.compressed=\`${Buffer.from(
-        pako.deflate(uncompressed),
-      ).toString('base64')}\`;\n`;
-
-      // Pako source
-      const inflateJS = fs.readFileSync(
-        path.join(__dirname, '../node_modules/pako/dist/pako_inflate.js'),
-      );
-      compressed += inflateJS;
-    }
-    res = res.replace(PlaceHolder.Compressed, this._getJSTag(compressed));
+    const style = this._data[DataKeys.Style];
+    html = html.replace(this._getHTMLHolder(DataKeys.Style), this._getStyleTag(style));
 
     // Assets
-    res = res.replace(
-      PlaceHolder.Assets,
-      this._getJSTag(`window.assets=${JSON.stringify(assets)};\n`),
-    );
-    // Settings
-    res = res.replace(PlaceHolder.Settings, this._getJSTag(settings));
-    // Engine
-    res = res.replace(PlaceHolder.EngineJS, this._getJSTag(engineJS));
-    // Internal
-    res = res.replace(PlaceHolder.InternaJS, this._getJSTag(internalJS));
-    // Main
-    res = res.replace(PlaceHolder.MainJS, this._getJSTag(mainJS));
-    // JS
-    res = res.replace(PlaceHolder.ProjectJS, this._getJSTag(js));
+    const assets: MapString = {};
+    for (const [k, v] of Object.entries(this._data)) {
+      if (k.startsWith(kPathAssets)) {
+        assets[k] = v;
+      }
+    }
+    html = html.replace('${assets}', this._getJSTag(`window.assets=${JSON.stringify(assets)};\n`));
 
-    return res;
+    // Replace
+    for (const [_, v] of Object.entries(DataKeys)) {
+      console.log(this._getHTMLHolder(v));
+      console.log(v != null);
+      html = html.replace(this._getHTMLHolder(v), this._data[v]);
+    }
+
+
+    // // Assets
+    // res = res.replace(
+    //   PlaceHolder.Assets,
+    //   this._getJSTag(`window.assets=${JSON.stringify(assets)};\n`),
+    // );
+    // // Settings
+    // res = res.replace(PlaceHolder.Settings, this._getJSTag(settings));
+    // // Engine
+    // res = res.replace(PlaceHolder.EngineJS, this._getJSTag(engineJS));
+    // // Internal
+    // res = res.replace(PlaceHolder.InternaJS, this._getJSTag(internalJS));
+    // // Main
+    // res = res.replace(PlaceHolder.MainJS, this._getJSTag(mainJS));
+    // // JS
+    // res = res.replace(PlaceHolder.ProjectJS, this._getJSTag(js));
+
+    // // const { style, settings, internalJS, mainJS } = this._data;
+    // // let { assets, engineJS, js } = this._data;
+
+    // // Style
+    // let res = html.replace(PlaceHolder.Style, this._getStyleTag(style));
+
+    // // Compressed
+    // let compressed = '';
+    // if (useCompress) {
+    //   // Compress assets, engineJS and js
+    //   const uncompressed = JSON.stringify({ assets, engineJS, js });
+    //   // Remove uncompress data to remove placeholder
+    //   assets = {};
+    //   engineJS = '';
+    //   js = '';
+    //   // Compress to base64
+    //   compressed = `window.compressed=\`${Buffer.from(
+    //     pako.deflate(uncompressed),
+    //   ).toString('base64')}\`;\n`;
+
+    //   // Pako source
+    //   const inflateJS = fs.readFileSync(
+    //     path.join(__dirname, '../node_modules/pako/dist/pako_inflate.js'),
+    //   );
+    //   compressed += inflateJS;
+    // }
+    // res = res.replace(PlaceHolder.Compressed, this._getJSTag(compressed));
+
+
+
+    return html;
+  }
+
+  /**
+   * Get a placeholder in `index.html` template, where to replace
+   * @param key data key
+   * @returns a placeholder
+   */
+  private _getHTMLHolder(key: string): string {
+    return '${' + key + '}';
   }
 
   private _getHTMLTag(tag: string, value?: string): string {
