@@ -47,16 +47,19 @@
   <!-- Compress -->
   <!-- ${compressed} -->
   <script>
+    window.settings = ${/src/settings.json};
+
     // assets
     ${assets}
-
-    window.settings = ${/src/settings.json};
 
     // Polyfills bundle
     ${/src/polyfills.bundle.js}
 
     // SystemJS support
     ${/src/system.bundle.js}
+
+    // assets script
+    ${assetsScripts}
 
     // Engine JS
     ${/cocos-js/cc.js}
@@ -68,8 +71,6 @@
     ${/index.js}
 
     ${/src/chunks/bundle.js}
-
-    ${/assets/main/index.js}
 
     System.import('index.js').catch(function(err) { console.error(err); })
   </script>

@@ -25,18 +25,6 @@ export class Packer {
   ): string {
     let html = this._data[DataKeys.Html];
 
-    this._data['title'] = title;
-    this._data['orientation'] = orientation;
-
-    // Assets
-    const assets: MapString = {};
-    for (const [k, v] of Object.entries(this._data)) {
-      if (k.startsWith(kPathAssets)) {
-        assets[k.replace(`${kPathAssets}/`, '')] = v;
-      }
-    }
-    this._data['assets'] = JSON.stringify(assets);
-
     // get all DataKeys in html with format: ${DataKey}
     const datakeys = [];
     const regex = /\$\{(.+)\}/g;
@@ -51,6 +39,24 @@ export class Packer {
       datakeys.push(m[1]);
     }
 
+    this._data['title'] = title;
+    this._data['orientation'] = orientation;
+
+    // Assets
+    const assets: MapString = {};
+    let assetsScripts = '';
+    for (const [k, v] of Object.entries(this._data)) {
+      if (k.startsWith(kPathAssets)) {
+        // exclude js in assets
+        if(!k.endsWith('.js')) {
+          assets[k.replace(`${kPathAssets}/`, '')] = v;
+        } else {
+          assetsScripts += `${v.replace('System.register([', `System.register("${k.substr(1)}", [`)}\n`;
+        }
+      }
+    }
+    this._data['assets'] = JSON.stringify(assets);
+    this._data['assetsScripts'] = assetsScripts;
 
     datakeys.forEach((e) => {
       // console.log(e);
