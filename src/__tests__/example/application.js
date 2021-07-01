@@ -42,6 +42,10 @@ System.register([], function (_export, _context) {
     }
 
     function topLevelImport(url) {
+      // remove ./ character in first because systemjs see it is a path
+      if(url.startsWith('./')) {
+        url = url.substr(2);
+      }
       return _context["import"]("".concat(url));
     }
 
@@ -99,6 +103,7 @@ System.register([], function (_export, _context) {
         if(window.settings) {
           window._CCSettings = window.settings;
           window._CCSettings.server = server;
+          resolve();
         } else if (typeof fsUtils !== 'undefined' && !settings.startsWith('http')) {
           var result = fsUtils.readJsonSync(settings);
 
