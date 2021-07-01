@@ -10,10 +10,10 @@ export class Preprocessor {
       // add name for systemjs register
       data = data.replace('System.register(["./application.js"]', 'System.register("index.js", ["application.js"]');
       break;
-    case '/cocos-js/cc.js':
-      // add name for systemjs register
-      data = data.replace('System.register(', 'System.register("cc", ');
-      break;
+    // case '/cocos-js/cc.js':
+    //   // add name for systemjs register
+    //   data = data.replace('System.register(', 'System.register("cc", ');
+    //   break;
     default:
       if(key.endsWith('.js')) {
         // remove / character in first because systemjs see it is a path

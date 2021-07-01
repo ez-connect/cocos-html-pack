@@ -10,6 +10,7 @@ enum DataKeys {
 }
 
 const kPathAssets = '/assets';
+const kPathCocosLibs = '/cocos-js';
 
 export class Packer {
   _data: MapString;
@@ -57,6 +58,22 @@ export class Packer {
     }
     this._data['assets'] = JSON.stringify(assets);
     this._data['assetsScripts'] = assetsScripts;
+
+    let cocosLibs = '';
+    for (const [k, v] of Object.entries(this._data)) {
+      if (k.startsWith(kPathCocosLibs)) {
+        if(k.endsWith('.js')) {
+          let t = v.replace(/"\.\//g, '"');
+          if(!k.endsWith('cc.js')) {
+            t = t.replace('System.register([', `System.register("${path.basename(k)}", [`);
+          } else {
+            t = t.replace('System.register([', 'System.register("cc", [');
+          }
+          cocosLibs += `${t}\n`;
+        }
+      }
+    }
+    this._data['cocosLibs'] = cocosLibs;
 
     datakeys.forEach((e) => {
       // console.log(e);
