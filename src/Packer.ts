@@ -25,6 +25,18 @@ export class Packer {
   ): string {
     let html = this._data[DataKeys.Html];
 
+    this._data['title'] = title;
+    this._data['orientation'] = orientation;
+
+    // Assets
+    const assets: MapString = {};
+    for (const [k, v] of Object.entries(this._data)) {
+      if (k.startsWith(kPathAssets)) {
+        assets[k] = v;
+      }
+    }
+    this._data['assets'] = JSON.stringify(assets);
+
     // get all DataKeys in html with format: ${DataKey}
     const datakeys = [];
     const regex = /\$\{(.+)\}/g;
@@ -39,25 +51,13 @@ export class Packer {
       datakeys.push(m[1]);
     }
 
-    // Assets
-    const assets: MapString = {};
-    for (const [k, v] of Object.entries(this._data)) {
-      if (k.startsWith(kPathAssets)) {
-        assets[k] = v;
-      }
-    }
 
     datakeys.forEach((e) => {
       // console.log(e);
       switch(e) {
-      case 'title':
-        html = html.replace('${title}', title);
-        break;
+      // replace all for orentation
       case 'orientation':
         html = html.replace(/\$\{orientation\}/g, orientation);
-        break;
-      case 'assets':
-        html = html.replace('${assets}', `window.assets=${JSON.stringify(assets)};\n`);
         break;
       default:
         if(this._data[e]) {

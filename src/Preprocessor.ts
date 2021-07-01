@@ -3,6 +3,9 @@
 export class Preprocessor {
   static exec(key: string, data: string): string {
     switch(key) {
+    case 'assets':
+      data = `window.assets=${JSON.stringify(data)};\n`;
+      break;
     case '/index.js':
       // add name for systemjs register
       data = data.replace('System.register(["./application.js"]', 'System.register("index.js", ["application.js"]');
