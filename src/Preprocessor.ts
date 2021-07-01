@@ -4,7 +4,7 @@ export class Preprocessor {
   static exec(key: string, data: string): string {
     switch(key) {
     case 'assets':
-      data = `window.assets=${JSON.stringify(data)};\n`;
+      data = `window.assets=${data};\n`;
       break;
     case '/index.js':
       // add name for systemjs register

@@ -32,6 +32,8 @@ System.register([], function (_export, _context) {
         }).then(function () {
           return loadJsList(settings.jsList);
         }).then(function () {
+          // TODO: load bundle
+          cc.assetManager.bundles.add('main', window.assets['main']);
           return loadAssetBundle(settings.hasResourcesBundle, settings.hasStartSceneBundle);
         }).then(function () {
           return cc.game.run(function () {
