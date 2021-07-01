@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>${title}</title>
+  <title>Cocos Creator | template</title>
 
   <!--http://www.html5rocks.com/en/mobile/mobifying/-->
   <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1" />
@@ -27,8 +27,8 @@
   <meta name="360-fullscreen" content="true" />
 
   <!-- force screen orientation on some browser -->
-  <meta name="screen-orientation" content="${orientation}" />
-  <meta name="x5-orientation" content="${orientation}">
+  <meta name="screen-orientation" content="auto" />
+  <meta name="x5-orientation" content="auto">
 
   <!--fix fireball/issues/3568 -->
   <!--<meta name="browsermode" content="application">-->
@@ -37,8 +37,6 @@
   <!--<link rel="apple-touch-icon" href=".png" />-->
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
-  <link rel="icon" href="favicon.ico" />
-
   <style>
     ${/style.css}
   </style>
@@ -46,13 +44,11 @@
 
 <body>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
-  <div id="splash">
-    <div class="progress-bar stripes">
-      <span style="width: 0%"></span>
-    </div>
-  </div>
-
+  <!-- Compress -->
+  <!-- ${compressed} -->
   <script>
+    window.settings = ${/src/settings.json};
+
     // assets
     ${assets}
 
@@ -62,8 +58,21 @@
     // SystemJS support
     ${/src/system.bundle.js}
 
+    // assets script
+    ${assetsScripts}
+
     // Engine JS
     ${/cocos-js/cc.js}
+
+    ${/downloader.js}
+
+    ${/application.js}
+
+    ${/index.js}
+
+    ${/src/chunks/bundle.js}
+
+    System.import('index.js').catch(function(err) { console.error(err); })
   </script>
 </body>
 
