@@ -65,6 +65,8 @@ export class Packer {
         if(k.endsWith('.js')) {
           let t = v.replace(/"\.\//g, '"');
           if(!k.endsWith('cc.js')) {
+            // update URL for wasm
+            t = t.replace(/new URL\("(.+\.wasm)",.+\.meta\.url\)/g, (substring, x) => `new URL("${kPathCocosLibs}/${x}",window.location.href)`);
             t = t.replace('System.register([', `System.register("${path.basename(k)}", [`);
           } else {
             t = t.replace('System.register([', 'System.register("cc", [');
