@@ -28,11 +28,11 @@ export class Packer {
     this._data['title'] = title;
     this._data['orientation'] = orientation;
 
-    // Assets: TODO
-    const assets: any = {'main': {}};
+    // Assets
+    const assets: MapString = {};
     for (const [k, v] of Object.entries(this._data)) {
       if (k.startsWith(kPathAssets)) {
-        assets['main'][path.basename(k)] = v;
+        assets[k.replace(`${kPathAssets}/`, '')] = v;
       }
     }
     this._data['assets'] = JSON.stringify(assets);
