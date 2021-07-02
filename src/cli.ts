@@ -16,6 +16,7 @@ async function main(
   input: string,
   output: string,
   title: string,
+  settings: string,
   orientation: string,
   minify: boolean,
   tinify: string,
@@ -89,7 +90,7 @@ async function main(
 
   console.log('Pack');
   const reader = new Reader(platform);
-  const data = reader.readAll(output);
+  const data = reader.readAll(output, settings);
   const packer = new Packer(data);
   const html = packer.patch(title, orientation, compress);
   Util.write(path.join(output, 'index.html'), html);
@@ -131,7 +132,7 @@ program
   .option('-i, --input <path>', 'input dir, build/web-mobile for example')
   .option('-o, --output <path>', 'output dir')
   .option('-t, --title <value>', 'page title if use the default template')
-  .option('-c, --settings <value>', 'json file contain: assets mapping, ...')
+  .option('-s, --settings <value>', 'json file contain: assets mapping, ...')
   .option('--orientation <value>', 'portrait or landscape', 'portrait')
   .option('--minify', 'compress js, css and html')
   .option('--tinify <key>', 'compress and optimize JPEG and PNG images')
@@ -144,10 +145,11 @@ const {
   input,
   output,
   title,
+  settings,
   orientation,
   minify,
   tinify,
   compress,
 } = program.opts();
 
-main(templates, input, output, title, orientation, minify, tinify, compress);
+main(templates, input, output, title, settings, orientation, minify, tinify, compress);
