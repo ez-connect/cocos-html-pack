@@ -22,6 +22,10 @@ class Util {
     }
   }
 
+  existFileSync(path: string) {
+    return fs.existsSync(path);
+  }
+
   copyFilesSync(src: string, dest: string) {
     const names = fs.readdirSync(src);
     for (const name of names) {

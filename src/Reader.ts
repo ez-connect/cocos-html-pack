@@ -6,6 +6,7 @@ import { Util } from './Util';
 
 // Template
 export type Platform = 'web-mobile' | 'web-desktop' | string;
+const kPathAssets = '/assets';
 
 // Encode to base64 for these files
 const kBinaryFormat: MapString = {
@@ -38,7 +39,13 @@ export class Reader {
     return data.toString('utf-8');
   }
 
-  readAll(dir: string): MapString {
+  readAll(dir: string, settingsPath?: string): MapString {
+    // Read settings
+    let settings = undefined;
+    if(settingsPath && Util.existFileSync(settingsPath)) {
+      settings = JSON.parse(this.read(settingsPath));
+    }
+
     // Get all scripts + assets files
     const filenames: string[] = [];
     Util.walk(filenames, dir);
@@ -50,7 +57,11 @@ export class Reader {
       if (path.sep === '\\') {
         key = key.replace(/\\/g, '/'); // replaceAll not supports
       }
-      const value = this.read(filename);
+      let replaced = undefined;
+      if(settingsPath && settings?.assets?.[path.basename(filename)]) {
+        replaced = `${path.dirname(settingsPath)}\\${settings.assets[path.basename(filename)]}`;
+      }
+      const value = this.read(replaced ?? filename);
       data[key] = value;
     }
 

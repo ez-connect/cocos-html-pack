@@ -4,7 +4,7 @@ const { Packer, Reader, Util } = require('../../lib');
 
 test('pack', () => {
   const reader = new Reader();
-  const data = reader.readAll(path.join('src', '__tests__', 'example'));
+  const data = reader.readAll(path.join('src', '__tests__', 'example'), path.join('src', '__tests__', 'example', 'settings', 'settings.json'));
   Util.writeJSON(path.join('src', '__tests__', 'game.json'), data);
 
   const packer = new Packer(data);

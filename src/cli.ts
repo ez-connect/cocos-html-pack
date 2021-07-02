@@ -126,11 +126,12 @@ const program = new Command();
 program
   .name('cocos-html-pack ')
   .description('Single html web mobile template for Cocos')
-  .version('0.2.0')
+  .version('0.3.0')
   .option('--templates', `override template dir in '${kOverrideTemplatesDir}'`)
   .option('-i, --input <path>', 'input dir, build/web-mobile for example')
   .option('-o, --output <path>', 'output dir')
   .option('-t, --title <value>', 'page title if use the default template')
+  .option('-c, --settings <value>', 'json file contain: assets mapping, ...')
   .option('--orientation <value>', 'portrait or landscape', 'portrait')
   .option('--minify', 'compress js, css and html')
   .option('--tinify <key>', 'compress and optimize JPEG and PNG images')
