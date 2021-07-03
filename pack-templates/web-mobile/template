@@ -1,0 +1,28 @@
+<script>
+  window.settings = ${/src/settings.json};
+
+  // assets
+  ${assets}
+
+  // Polyfills bundle
+  ${/src/polyfills.bundle.js}
+
+  // SystemJS support
+  ${/src/system.bundle.js}
+
+  // assets script
+  ${assetsScripts}
+
+  // Engine JS
+  ${cocosLibs}
+
+  ${/downloader.js}
+
+  ${/application.js}
+
+  ${/index.js}
+
+  ${/src/chunks/bundle.js}
+
+  System.import('index.js').catch(function(err) { console.error(err); })
+</script>

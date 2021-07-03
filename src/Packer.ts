@@ -26,74 +26,79 @@ export class Packer {
   ): string {
     let html = this._data[DataKeys.Html];
 
-    // get all DataKeys in html with format: ${DataKey}
-    const datakeys = [];
-    const regex = /\$\{(.+)\}/g;
-    let m;
-    while ((m = regex.exec(html)) !== null) {
-      // This is necessary to avoid infinite loops with zero-width matches
-      if (m.index === regex.lastIndex) {
-        regex.lastIndex++;
+    // pack css
+    html = html.replace(/<link rel="stylesheet".+href="(?<href>[^"]+)"\/>/g, (substring, href) => {
+      const value = this._data[`/${href}`];
+      delete this._data[`/${href}`];
+      return `<style>\n${value}\n</style>`;
+    });
+
+    // pack scripts loaded in html
+    html = html.replace(/<script src="(?<source>[^"]+)" (type="systemjs-importmap")?.*>.*<\/script>/g, (substring, source, type) => {
+      let value = this._data[`/${source}`];
+      delete this._data[`/${source}`];
+      // import js by json
+      if(type) {
+        const importmap = JSON.parse(value)?.imports;
+        if(importmap) {
+          value = '';
+          for(const i in importmap) {
+            const t = Object.keys(this._data).find((v) => importmap[i].endsWith(v));
+            if(t && this._data[t]) {
+              value += `\n//${t}\n${Preprocessor.exec(t, this._data[t], i)}`;
+            }
+          }
+        }
+      } else {
+        value = `\n//${source}\n${Preprocessor.exec(source, value)}`;
       }
+      return `<script>\n${value}\n</script>`;
+    });
 
-      // The result can be accessed through the `m`-variable.
-      datakeys.push(m[1]);
-    }
-
-    this._data['title'] = title;
-    this._data['orientation'] = orientation;
-
-    // Assets
+    // pack assets
     const assets: MapString = {};
     let assetsScripts = '';
     for (const [k, v] of Object.entries(this._data)) {
       if (k.startsWith(kPathAssets)) {
         // exclude js in assets
-        if(!k.endsWith('.js')) {
+        if (!k.endsWith('.js')) {
           assets[k.replace(`${kPathAssets}/`, '')] = v;
         } else {
-          assetsScripts += `${v.replace('System.register([', `System.register("${k.substr(1)}", [`)}\n`;
+          assetsScripts += `\n//${k}\n${Preprocessor.exec(k, v)}\n`;
         }
+        delete this._data[k];
       }
     }
-    this._data['assets'] = JSON.stringify(assets);
-    this._data['assetsScripts'] = assetsScripts;
 
-    let cocosLibs = '';
+    // pack others scripts
+    let otherScripts = '';
     for (const [k, v] of Object.entries(this._data)) {
-      if (k.startsWith(kPathCocosLibs)) {
-        if(k.endsWith('.js')) {
-          let t = v.replace(/"\.\//g, '"');
-          if(!k.endsWith('cc.js')) {
-            // update URL for wasm
-            t = t.replace(/new URL\("(.+\.wasm)",.+\.meta\.url\)/g, (substring, x) => `new URL("${kPathCocosLibs}/${x}",window.location.href)`);
-            t = t.replace('System.register([', `System.register("${path.basename(k)}", [`);
-          } else {
-            t = t.replace('System.register([', 'System.register("cc", [');
-          }
-          cocosLibs += `${t}\n`;
-        }
+      if (k.endsWith('.js')) {
+        // update URL for wasm
+        const t = v.replace(/new URL\("(.+\.wasm)",.+\.meta\.url\)/g, (substring, x) => `new URL("${kPathCocosLibs}/${x}",window.location.href)`);
+        otherScripts += `\n//${k}\n${Preprocessor.exec(k, t)}\n`;
       }
     }
-    this._data['cocosLibs'] = cocosLibs;
 
-    datakeys.forEach((e) => {
-      // console.log(e);
-      switch(e) {
-      // replace all for orentation
-      case 'orientation':
-        html = html.replace(/\$\{orientation\}/g, orientation);
-        break;
-      default:
-        if(this._data[e]) {
-          let value = this._data[e].replace(/\$/g, '$$$');
-          value = Preprocessor.exec(e, value);
-          html = html.replace(`\${${e}}`, `//${e}\n${value}\n`);
-        }
-        return;
-      }
-    });
-
+    // datakeys.forEach((e) => {
+    //   // console.log(e);
+    //   switch (e) {
+    //     // replace all for orentation
+    //     case 'orientation':
+    //       html = html.replace(/\$\{orientation\}/g, orientation);
+    //       break;
+    //     default:
+    //       if (this._data[e]) {
+    //         let value = this._data[e].replace(/\$/g, '$$$');
+    //         value = Preprocessor.exec(e, value);
+    //         template = template.replace(`\${${e}}`, `//${e}\n${value}\n`);
+    //       }
+    //       return;
+    //   }
+    // });
+    // template = template.replace(/\$/g, '$$$');
+    // html = html.replace('</body>', `${template}\n</body>`);
+    html = html.replace('System.import(\'./index.js\')', `window.settings=${this._data['/src/settings.json']};\nwindow.assets=${JSON.stringify(assets)};\n${assetsScripts}\n${otherScripts}\nSystem.import('index.js')`);
     return html;
   }
 }
