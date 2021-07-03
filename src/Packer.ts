@@ -64,7 +64,7 @@ export class Packer {
         if(!k.endsWith('.js')) {
           assets[k.replace(`${kPathAssets}/`, '')] = v;
         } else {
-          assetsScripts += `${v.replace('System.register([', `System.register("${k.substr(1)}", [`)}\n`;
+          assetsScripts += `${Preprocessor.exec(k, v)}\n`;
         }
       }
     }
@@ -75,13 +75,13 @@ export class Packer {
     for (const [k, v] of Object.entries(this._data)) {
       if (k.startsWith(kPathCocosLibs)) {
         if(k.endsWith('.js')) {
-          let t = v.replace(/"\.\//g, '"');
+          let t = v;
           if(!k.endsWith('cc.js')) {
             // update URL for wasm
             t = t.replace(/new URL\("(.+\.wasm)",.+\.meta\.url\)/g, (substring, x) => `new URL("${kPathCocosLibs}/${x}",window.location.href)`);
-            t = t.replace('System.register([', `System.register("${path.basename(k)}", [`);
+            t = Preprocessor.exec(k, t, k.replace(kPathCocosLibs, '').substr(1));
           } else {
-            t = t.replace('System.register([', 'System.register("cc", [');
+            t = Preprocessor.exec(k, t, 'cc');
           }
           cocosLibs += `${t}\n`;
         }
@@ -98,8 +98,7 @@ export class Packer {
         break;
       default:
         if(this._data[e]) {
-          let value = this._data[e].replace(/\$/g, '$$$');
-          value = Preprocessor.exec(e, value);
+          const value = Preprocessor.exec(e, this._data[e]);
           template = template.replace(`\${${e}}`, `//${e}\n${value}\n`);
         }
         return;
