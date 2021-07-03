@@ -197,6 +197,21 @@ System.register(['cc'], function (_export, _context) {
     onComplete(null, fontFamilyName);
   }
 
+  function registerDownloader(cc) {
+    cc.assetManager.downloader.register('bundle', loadBundle);
+    cc.assetManager.downloader.register('.json', loadJson);
+    cc.assetManager.downloader.register('.plist', loadPlist);
+    cc.assetManager.downloader.register('.webp', loadImage);
+    cc.assetManager.downloader.register('.png', loadImage);
+    cc.assetManager.downloader.register('.jpg', loadImage);
+    cc.assetManager.downloader.register('.jpeg', loadImage);
+    cc.assetManager.downloader.register('.mp3', loadAudio);
+    cc.assetManager.downloader.register('.ogg', loadAudio);
+    cc.assetManager.downloader.register('.wav', loadAudio);
+    cc.assetManager.downloader.register('.m4a', loadAudio);
+    cc.assetManager.downloader.register('.ttf', loadFont);
+  }
+
   return {
     setters: [function (_cc) {
       cc = _cc;
@@ -205,11 +220,7 @@ System.register(['cc'], function (_export, _context) {
       __audioSupport = cc.sys?.__audioSupport;
       formatSupport = __audioSupport?.format;
       context = __audioSupport?.context;
-      _export('loadBundle', loadBundle);
-      _export('loadJson', loadJson);
-      _export('loadImage', loadImage);
-      _export('loadFont', loadFont);
-      _export('loadPlist', loadPlist);
+      _export('registerDownloader', registerDownloader);
     }
   };
 });

@@ -148,18 +148,7 @@ System.register([], function (_export, _context) {
   function initializeGame(cc, settings, findCanvas) {
     // register custom downloader
     _context["import"]("".concat('downloader.js')).then(function (downloader) {
-      cc.assetManager.downloader.register('bundle', downloader.loadBundle);
-      cc.assetManager.downloader.register('.json', downloader.loadJson);
-      cc.assetManager.downloader.register('.plist', downloader.loadPlist);
-      cc.assetManager.downloader.register('.webp', downloader.loadImage);
-      cc.assetManager.downloader.register('.png', downloader.loadImage);
-      cc.assetManager.downloader.register('.jpg', downloader.loadImage);
-      cc.assetManager.downloader.register('.jpeg', downloader.loadImage);
-      cc.assetManager.downloader.register('.mp3', downloader.loadAudio);
-      cc.assetManager.downloader.register('.ogg', downloader.loadAudio);
-      cc.assetManager.downloader.register('.wav', downloader.loadAudio);
-      cc.assetManager.downloader.register('.m4a', downloader.loadAudio);
-      cc.assetManager.downloader.register('.ttf', downloader.loadFont);
+      downloader.registerDownloader(cc);
     });
 
     if (settings.macros) {
