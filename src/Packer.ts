@@ -7,6 +7,7 @@ import { Preprocessor } from './Preprocessor';
 // Asset keys
 enum DataKeys {
   Html = '/index.html',
+  Template = '/template',
 }
 
 const kPathAssets = '/assets';
@@ -25,12 +26,23 @@ export class Packer {
     useCompress?: boolean,
   ): string {
     let html = this._data[DataKeys.Html];
+    let template = this._data[DataKeys.Template];
+
+    // pack css
+    html = html.replace(/<link rel="stylesheet".+href="(?<href>[^"]+)"\/>/g, (substring, href) => {
+      const value = this._data[`/${href}`];
+      delete this._data[`/${href}`];
+      return `<style>\n${value}\n</style>`;
+    });
+
+    // remove script loaded in html
+    html = html.replace(/<script.*>[\s\S]*<\/script>/g, '');
 
     // get all DataKeys in html with format: ${DataKey}
     const datakeys = [];
     const regex = /\$\{(.+)\}/g;
     let m;
-    while ((m = regex.exec(html)) !== null) {
+    while ((m = regex.exec(template)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       if (m.index === regex.lastIndex) {
         regex.lastIndex++;
@@ -88,11 +100,14 @@ export class Packer {
         if(this._data[e]) {
           let value = this._data[e].replace(/\$/g, '$$$');
           value = Preprocessor.exec(e, value);
-          html = html.replace(`\${${e}}`, `//${e}\n${value}\n`);
+          template = template.replace(`\${${e}}`, `//${e}\n${value}\n`);
         }
         return;
       }
     });
+
+    const value = template.replace(/\$/g, '$$$');
+    html = html.replace('</body>', `${value}\n</body>`);
 
     return html;
   }
