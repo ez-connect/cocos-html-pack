@@ -57,11 +57,24 @@ export class Reader {
       if (path.sep === '\\') {
         key = key.replace(/\\/g, '/'); // replaceAll not supports
       }
-      let replaced = undefined;
-      if(settingsPath && settings?.assets?.[path.basename(filename)]) {
-        replaced = `${path.dirname(settingsPath)}\\${settings.assets[path.basename(filename)]}`;
+
+      // replace assets
+      let value = '';
+      if(settings?.[path.basename(filename)]) {
+        if(settings[path.basename(filename)]['type'] === 'image') {
+          value = this.read(settings[path.basename(filename)]['replacer'] ?? filename);
+        } else if(settings[path.basename(filename)]['type'] === 'json') {
+          value = this.read(filename);
+          const items = settings[path.basename(filename)]['items'];
+          for(const k of Object.keys(items)) {
+            value = value.replace(`"${k}":${items[k]['default']}`, `"${k}":${items[k]['value']}`);
+            console.log(`"${k}":${items[k]['default']}`, `"${k}":${items[k]['value']}`, value);
+          }
+        }
+      } else {
+        value = this.read(filename);
       }
-      const value = this.read(replaced ?? filename);
+
       data[key] = value;
     }
 
