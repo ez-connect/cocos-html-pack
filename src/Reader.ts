@@ -30,7 +30,7 @@ export class Reader {
     // Read the file
     const data = fs.readFileSync(filename);
     // Get extension
-    const ext = path.extname(filename);
+    const ext = path.extname(filename).toLowerCase();
     // Is binary file?
     if (Object.getOwnPropertyDescriptor(kBinaryFormat, ext)) {
       return `${kBinaryFormat[ext]}${data.toString('base64')}`;
